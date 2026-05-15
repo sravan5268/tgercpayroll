@@ -410,6 +410,52 @@ tr:hover td{background:#f5f9ff}
   .kyt-metrics{grid-template-columns:repeat(2,1fr)}
   #knowtax-tab .kyt-header{flex-direction:column;align-items:flex-start}
 }
+
+/* ── PENSIONER PAGE ── */
+#pgPensioner{display:none;min-height:calc(100vh - 54px);background:#f0f4f8}
+.pen-wrap{max-width:960px;margin:0 auto;padding:1.25rem 1rem}
+.pen-header{background:linear-gradient(135deg,#1a3c5e 0%,#0d5c8c 100%);border-radius:10px;padding:1.5rem 1.75rem;color:#fff;display:flex;align-items:center;gap:1.25rem;margin-bottom:1.25rem;box-shadow:0 4px 16px rgba(26,60,94,.25)}
+.pen-avatar{width:62px;height:62px;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;flex-shrink:0}
+.pen-name{font-size:20px;font-weight:800;margin-bottom:3px}
+.pen-id{font-size:12px;opacity:.78;margin-bottom:4px}
+.pen-badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:10px;font-size:11px;font-weight:700;padding:2px 10px;letter-spacing:.3px}
+.pen-header-right{margin-left:auto;text-align:right}
+.pen-header-right .pen-ppo-label{font-size:11px;opacity:.7}
+.pen-header-right .pen-ppo-val{font-size:15px;font-weight:800}
+.pen-info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem;margin-bottom:1.25rem}
+.pen-info-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:.8rem 1rem;position:relative;overflow:hidden}
+.pen-info-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--blue)}
+.pen-info-label{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:4px;font-weight:600}
+.pen-info-val{font-size:14px;font-weight:700;color:#1a2a3a;word-break:break-word}
+.pen-section{background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:1.1rem;overflow:hidden}
+.pen-section-hdr{background:var(--blue-light);padding:.75rem 1.25rem;font-size:13px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:.5rem;border-bottom:1px solid var(--border)}
+.pen-section-body{padding:1.1rem 1.25rem}
+.pen-amounts{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.pen-amt-card{border-radius:8px;padding:1rem 1.1rem;text-align:center}
+.pen-amt-card.primary{background:linear-gradient(135deg,#1a3c5e,#0d5c8c);color:#fff}
+.pen-amt-card.secondary{background:#e6f5ed;border:1px solid #a5d6a7}
+.pen-amt-card.accent{background:#fff3e0;border:1px solid #ffcc80}
+.pen-amt-card.purple{background:#ede7f6;border:1px solid #ce93d8}
+.pen-amt-card.teal{background:#e0f7fa;border:1px solid #80deea}
+.pen-amt-card.red{background:#fce8e8;border:1px solid #ef9a9a}
+.pen-amt-label{font-size:11px;opacity:.75;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;font-weight:600}
+.pen-amt-val{font-size:22px;font-weight:800}
+.pen-amt-sub{font-size:11px;margin-top:4px;opacity:.7}
+.pen-amt-card.primary .pen-amt-label{color:rgba(255,255,255,.85)}
+.pen-amt-card.primary .pen-amt-sub{color:rgba(255,255,255,.7)}
+.pen-da-row{display:flex;align-items:center;justify-content:space-between;padding:.65rem 0;border-bottom:1px solid var(--border);font-size:13px}
+.pen-da-row:last-child{border-bottom:none}
+.pen-da-key{color:var(--muted);font-weight:500}
+.pen-da-val{font-weight:700;color:#1a2a3a}
+.pen-da-val.highlight{color:var(--blue);font-size:15px}
+.pen-commute-bar-wrap{margin:1rem 0 .5rem}
+.pen-commute-bar-bg{background:#e9ecef;border-radius:6px;height:10px;overflow:hidden;margin-top:6px}
+.pen-commute-bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#1a3c5e,#0d7377);transition:width .6s ease}
+.pen-commute-label{font-size:11px;color:var(--muted);margin-top:4px}
+.pen-chpwd-wrap{background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:1.1rem}
+.pen-chpwd-hdr{background:var(--blue-light);padding:.65rem 1.1rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.pen-chpwd-title{font-size:13px;font-weight:700;color:var(--blue)}
+@media(max-width:700px){.pen-info-grid{grid-template-columns:repeat(2,1fr)}.pen-header{flex-direction:column;align-items:flex-start}.pen-header-right{margin-left:0;text-align:left}.pen-amounts{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -947,12 +993,157 @@ tr:hover td{background:#f5f9ff}
   </div>
 </div>
 
+<!-- ── PENSIONER PAGE ── -->
+<div id="pgPensioner">
+  <div class="pen-wrap">
+    <div style="background:#fdecea;color:#b71c1c;border-radius:8px;padding:1rem 1.25rem;font-size:13px;margin-bottom:1rem;display:none" id="penError"></div>
+    <div class="loading-bar" id="penLoadingBar" style="display:none">⏳ Loading your pension details...</div>
+
+    <div class="pen-header" id="penHeader" style="display:none">
+      <div class="pen-avatar" id="penAv">--</div>
+      <div>
+        <div class="pen-name"  id="penName">--</div>
+        <div class="pen-id"    id="penIdDisplay">Pensioner ID: --</div>
+        <span class="pen-badge">🏛 TGERC Pensioner</span>
+      </div>
+      <div class="pen-header-right">
+        <div class="pen-ppo-label">PPO Number</div>
+        <div class="pen-ppo-val" id="penPPO">--</div>
+      </div>
+    </div>
+
+    <div class="pen-info-grid" id="penInfoGrid" style="display:none">
+      <div class="pen-info-card"><div class="pen-info-label">Date of Birth</div><div class="pen-info-val" id="penDOB">--</div></div>
+      <div class="pen-info-card"><div class="pen-info-label">Date of Retirement</div><div class="pen-info-val" id="penDOR">--</div></div>
+      <div class="pen-info-card"><div class="pen-info-label">Designation at Retirement</div><div class="pen-info-val" id="penDesg">--</div></div>
+      <div class="pen-info-card"><div class="pen-info-label">Department</div><div class="pen-info-val" id="penDept">--</div></div>
+      <div class="pen-info-card"><div class="pen-info-label">LIC Annuity Number</div><div class="pen-info-val" id="penLIC">--</div></div>
+      <div class="pen-info-card"><div class="pen-info-label">Gender</div><div class="pen-info-val" id="penGender">--</div></div>
+      <div class="pen-info-card"><div class="pen-info-label">Spouse Name</div><div class="pen-info-val" id="penSpouse">--</div></div>
+      <div class="pen-info-card"><div class="pen-info-label">Years Since Retirement</div><div class="pen-info-val" id="penYSR">--</div></div>
+    </div>
+
+    <div class="pen-chpwd-wrap" id="penChPwdWrap" style="display:none">
+      <div class="pen-chpwd-hdr" onclick="togglePenChangePwd()">
+        <span class="pen-chpwd-title">🔐 Change Password</span>
+        <span id="penChPwdChevron" style="font-size:12px;color:var(--muted)">▼ Show</span>
+      </div>
+      <div id="penChPwdBody" style="display:none;padding:1rem 1.1rem">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;align-items:end">
+          <div><label style="font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">Current Password</label><input type="password" id="penCpCurrent" placeholder="Current password" style="width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:5px;font-size:13px;outline:none;box-sizing:border-box"/></div>
+          <div><label style="font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">New Password <span style="font-weight:400">(min 4 chars)</span></label><input type="password" id="penCpNew" placeholder="New password" style="width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:5px;font-size:13px;outline:none;box-sizing:border-box"/></div>
+          <div><label style="font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">Confirm New Password</label><input type="password" id="penCpConfirm" placeholder="Confirm new password" style="width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:5px;font-size:13px;outline:none;box-sizing:border-box"/></div>
+        </div>
+        <div style="margin-top:.75rem;display:flex;align-items:center;gap:.75rem">
+          <button onclick="submitPensionerChangePassword()" style="background:var(--blue);color:#fff;border:none;padding:8px 20px;border-radius:5px;font-size:13px;font-weight:600;cursor:pointer">Update Password</button>
+          <span id="penCpMsg" style="display:none;font-size:12px;font-weight:600"></span>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:.5rem">⚠ After changing, your new password will be used for all future logins.</div>
+      </div>
+    </div>
+
+    <div class="pen-section" id="penAmountsSection" style="display:none">
+      <div class="pen-section-hdr">💰 Pension Details</div>
+      <div class="pen-section-body">
+        <div class="pen-amounts">
+          <div class="pen-amt-card primary">
+            <div class="pen-amt-label">Basic Pension</div>
+            <div class="pen-amt-val" id="penBasic">--</div>
+            <div class="pen-amt-sub">Per month (pre-commutation)</div>
+          </div>
+          <div class="pen-amt-card secondary">
+            <div class="pen-amt-label">Pension after Commutation</div>
+            <div class="pen-amt-val" id="penAfterCommute" style="color:#1a7a4a">--</div>
+            <div class="pen-amt-sub">Current monthly pension</div>
+          </div>
+          <div class="pen-amt-card accent">
+            <div class="pen-amt-label">Revised Pension (with DA)</div>
+            <div class="pen-amt-val" id="penRevised" style="color:#b45309">--</div>
+            <div class="pen-amt-sub" id="penDABadge">DA: --%</div>
+          </div>
+          <div class="pen-amt-card purple">
+            <div class="pen-amt-label">Commuted Amount</div>
+            <div class="pen-amt-val" id="penCommuted" style="color:#7c3aed">--</div>
+            <div class="pen-amt-sub">Lump sum received at retirement</div>
+          </div>
+          <div class="pen-amt-card teal">
+            <div class="pen-amt-label">Family Pension</div>
+            <div class="pen-amt-val" id="penFamily" style="color:#0d7377">--</div>
+            <div class="pen-amt-sub" id="penFamilyNominee">Nominee: --</div>
+          </div>
+          <div class="pen-amt-card red">
+            <div class="pen-amt-label">Commutation Period</div>
+            <div class="pen-amt-val" id="penCommutePeriod" style="color:#b71c1c;font-size:16px">--</div>
+            <div class="pen-amt-sub">Period of commutation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pen-section" id="penDASection" style="display:none">
+      <div class="pen-section-hdr">📈 DA &amp; Commutation Summary</div>
+      <div class="pen-section-body">
+        <div class="pen-da-row"><span class="pen-da-key">Pension after Commutation (base for DA)</span><span class="pen-da-val" id="penDABasic">₹ --</span></div>
+        <div class="pen-da-row"><span class="pen-da-key">Current DA Percentage</span><span class="pen-da-val" id="penDAPct">-- %</span></div>
+        <div class="pen-da-row"><span class="pen-da-key">DA Amount (per month)</span><span class="pen-da-val" id="penDAAmount">₹ --</span></div>
+        <div class="pen-da-row"><span class="pen-da-key">Revised Gross Pension (with DA)</span><span class="pen-da-val highlight" id="penDARevised">₹ --</span></div>
+        <div class="pen-commute-bar-wrap" id="penCommuteBarWrap" style="display:none">
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted)"><span>Pension Retained after Commutation</span><span id="penCommuteBarPct">--%</span></div>
+          <div class="pen-commute-bar-bg"><div class="pen-commute-bar-fill" id="penCommuteBarFill" style="width:0%"></div></div>
+          <div class="pen-commute-label" id="penCommuteBarLabel"></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;font-size:12px;color:var(--muted);padding:.75rem;margin-bottom:1rem">
+      For any discrepancies in your pension details, please contact TGERC Accounts Section.
+    </div>
+  </div>
+</div>
+<!-- ── END PENSIONER PAGE ── -->
+
 <script>
 // ===== CONSTANTS =====
-// MASTER_FILE_ID and LEAVE_SHEET_ID are now stored only in the Apps Script
-// Requests go through the Netlify serverless proxy — GAS URL and token are never in this file
 const PROXY_URL = '/api/proxy';
-const API_TOKEN = '';   // Token is now injected server-side by the proxy function
+const API_TOKEN = ''; // Token injected server-side by Netlify proxy — never visible here
+
+// ===== SESSION MANAGEMENT =====
+// Session token stored in sessionStorage (cleared when browser tab closes)
+let _sessionToken = sessionStorage.getItem('tgerc_session') || '';
+let _sessionRole  = sessionStorage.getItem('tgerc_role')    || '';
+
+function saveSession(token, role) {
+  _sessionToken = token;
+  _sessionRole  = role;
+  sessionStorage.setItem('tgerc_session', token);
+  sessionStorage.setItem('tgerc_role',    role);
+}
+
+function clearSession() {
+  _sessionToken = '';
+  _sessionRole  = '';
+  sessionStorage.removeItem('tgerc_session');
+  sessionStorage.removeItem('tgerc_role');
+}
+
+// Authenticated fetch — injects sessionToken into every request automatically
+// If server responds SESSION_EXPIRED/SESSION_MISSING, auto-logout
+async function apiFetch(url) {
+  const sep     = url.includes('?') ? '&' : '?';
+  const fullUrl = _sessionToken ? `${url}${sep}sessionToken=${encodeURIComponent(_sessionToken)}` : url;
+  const res     = await fetch(fullUrl);
+  const text    = await res.text();
+  try {
+    const json = JSON.parse(text);
+    if (json && (json.code === 'SESSION_EXPIRED' || json.code === 'SESSION_MISSING')) {
+      clearSession();
+      alert('Your session has expired. Please log in again.');
+      location.reload();
+      return null;
+    }
+  } catch(e) { /* binary response — not JSON, that is fine */ }
+  return text;
+}
 const MONTH_ORDER = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
 // ===== SHA-256 helpers =====
@@ -967,6 +1158,9 @@ let adminConfig = {}; // populated on page load: { admin_user, admin_pass_hash }
 
 let fileIdMap={}, taxDocMap={}, months=[], leaveBalances=[], leaveHistory=[], optionalHolidays=[], generalHolidays=[], employeeBirthdays=[], taxData=[], notices=[], currentEmp=null;
 let _allPsRows=[], _currentLeaveHistory=[];
+
+// ── Pensioner globals ──
+let pensioners=[], currentPen=null, _penDetails=null;
 
 // ===== HELPERS =====
 function initials(n){return n.trim().split(/\s+/).filter(w=>/[A-Za-z]/.test(w)).slice(0,2).map(w=>w[0].toUpperCase()).join('');}
@@ -1183,10 +1377,11 @@ async function initPortal(){
   btnEl.textContent = 'Loading...';
 
   try {
-    const [empRes, cfgRes, noticeRes] = await Promise.allSettled([
-      fetch(`${PROXY_URL}?action=getEmployees&token=${API_TOKEN}`).then(r=>r.json()),
-      fetch(`${PROXY_URL}?action=getConfig&token=${API_TOKEN}`).then(r=>r.json()),
-      fetch(`${PROXY_URL}?action=getNotices&token=${API_TOKEN}`).then(r=>r.json()),
+    const [empRes, cfgRes, noticeRes, penRes] = await Promise.allSettled([
+      fetch(`${PROXY_URL}?action=getEmployees`).then(r=>r.json()),
+      fetch(`${PROXY_URL}?action=getConfig`).then(r=>r.json()),
+      fetch(`${PROXY_URL}?action=getNotices`).then(r=>r.json()),
+      fetch(`${PROXY_URL}?action=getPensioners`).then(r=>r.json()),
     ]);
 
     if(empRes.status==='fulfilled' && empRes.value && !empRes.value.error){
@@ -1226,6 +1421,19 @@ async function initPortal(){
       notices = (noticeRes.value.data || []).filter(n=>String(n['Active']||'').toUpperCase()==='YES');
     }
 
+    if(penRes.status==='fulfilled' && penRes.value && !penRes.value.error){
+      pensioners = (penRes.value.data || []).map(r=>({
+        id:        String(r['Pensioner ID']||'').trim(),
+        name:      String(r['Name']||'').trim(),
+        gender:    String(r['Gender']||'').trim(),
+        dob:       r['Date of Birth']||null,
+        dor:       r['Date of Retirement']||null,
+        desg:      String(r['Designation at Retirement']||'').trim(),
+        dept:      String(r['Department']||'').trim(),
+        customPwd: String(r['Custom Password']||'').trim(),
+      })).filter(p=>p.id && p.name);
+    }
+
   } catch(e){
     console.error('Portal init error:', e);
   }
@@ -1237,27 +1445,58 @@ async function initPortal(){
 
 // ===== LOGIN =====
 async function doLogin(){
-  if(employees.length === 0){
-    document.getElementById('loginErr').textContent = 'Employee data not yet loaded. Please wait and try again.';
-    document.getElementById('loginErr').style.display='block';
+  const code   = document.getElementById('inCode').value.trim();
+  const rawPwd = document.getElementById('inPwd').value.trim();
+  const errEl  = document.getElementById('loginErr');
+  const btnEl  = document.getElementById('loginBtn');
+  const loadEl = document.getElementById('loginLoading');
+
+  // Pensioner IDs start with 'P' — route to pensioner login
+  if(code.toUpperCase().startsWith('P')){
+    await doPensionerLogin(code, rawPwd);
     return;
   }
-  const code=document.getElementById('inCode').value.trim();
-  const rawPwd=document.getElementById('inPwd').value.trim();
-  const hashedPwd=await sha256(rawPwd);
-  // If employee has a custom password set, use that; otherwise fall back to Bank Last 4 hash
-  const emp=employees.find(e=>{
-    if(e.code!==code) return false;
-    if(e.customPwd) return e.customPwd===hashedPwd;  // custom password takes priority
-    return e.pwd===hashedPwd;                          // fallback: Bank Last 4
-  });
-  if(!emp){
-    document.getElementById('loginErr').textContent='Invalid Employee Code or Password.';
-    document.getElementById('loginErr').style.display='block';
-    return;
+
+  if(!code || !rawPwd){
+    errEl.textContent='Please enter Employee Code and Password.';
+    errEl.style.display='block'; return;
   }
-  document.getElementById('loginErr').style.display='none';
-  currentEmp=emp;
+
+  // Hash password client-side before sending — server never sees plain text
+  const hashedPwd = await sha256(rawPwd);
+
+  errEl.style.display='none';
+  loadEl.style.display='block';
+  btnEl.disabled=true; btnEl.textContent='Signing in...';
+
+  try {
+    const qs  = new URLSearchParams({ action:'login', empCode:code, pwdHash:hashedPwd });
+    const res = await fetch(`${PROXY_URL}?${qs.toString()}`);
+    const json= await res.json();
+
+    if(!json.success){
+      errEl.textContent = json.error || 'Invalid Employee Code or Password.';
+      errEl.style.display='block';
+      loadEl.style.display='none';
+      btnEl.disabled=false; btnEl.textContent='Sign In';
+      return;
+    }
+
+    // Save session token — all subsequent requests use this
+    saveSession(json.sessionToken, json.role);
+
+    // Find emp object from already-loaded employees list for UI display
+    const emp = employees.find(e=>e.code===json.empCode);
+    if(!emp){
+      errEl.textContent='Login succeeded but employee profile not found. Please refresh.';
+      errEl.style.display='block';
+      loadEl.style.display='none';
+      btnEl.disabled=false; btnEl.textContent='Sign In';
+      return;
+    }
+
+    errEl.style.display='none';
+    currentEmp=emp;
 
   // Last login display
   const llKey='tgerc_lastlogin_'+code;
@@ -1326,42 +1565,45 @@ async function doLogin(){
 
   // Record login event (fire-and-forget, non-blocking)
   try{
-    const qs=new URLSearchParams({
-      action:'logLogin', token:API_TOKEN,
-      empCode: emp.code, empName: emp.name,
-      loginTime: new Date().toISOString()
-    });
-    fetch(`${PROXY_URL}?${qs.toString()}`).catch(()=>{});
+    const qs=new URLSearchParams({ action:'logLogin', empName: emp.name });
+    apiFetch(`${PROXY_URL}?${qs.toString()}`).catch(()=>{});
   }catch(e){}
 
+  loadEl.style.display='none';
+  btnEl.disabled=false; btnEl.textContent='Sign In';
   resetIdle();
+
+  } catch(loginErr) {
+    document.getElementById('loginErr').textContent = '❌ Login error: ' + loginErr.message;
+    document.getElementById('loginErr').style.display='block';
+    document.getElementById('loginLoading').style.display='none';
+    document.getElementById('loginBtn').disabled=false;
+    document.getElementById('loginBtn').textContent='Sign In';
+  }
 }
 
 // ===== ADMIN LOGIN =====
 async function doAdminLogin(){
-  const user=document.getElementById('adminUser').value.trim();
-  const pass=document.getElementById('adminPass').value.trim();
-  const errEl=document.getElementById('adminErr');
+  const user   = document.getElementById('adminUser').value.trim();
+  const pass   = document.getElementById('adminPass').value.trim();
+  const errEl  = document.getElementById('adminErr');
   errEl.style.display='none';
 
-  // Use config from sheet if available, fallback to hardcoded
-  let validUser = adminConfig.admin_user || 'DDPA';
-  let validHash = adminConfig.admin_pass_hash || '';
+  const hashedPwd = await sha256(pass);
 
-  // If no hash from server, compare directly with hardcoded fallback
-  if(!validHash){
-    if(user==='DDPA' && pass==='260595'){
-      enterAdmin();
-    } else {
+  try {
+    const qs  = new URLSearchParams({ action:'login', empCode:user, pwdHash:hashedPwd, isAdmin:'true' });
+    const res = await fetch(`${PROXY_URL}?${qs.toString()}`);
+    const json= await res.json();
+
+    if(!json.success){
       errEl.style.display='block';
+      return;
     }
-    return;
-  }
-
-  const inputHash = await sha256(pass);
-  if(user===validUser && inputHash===validHash){
+    // Save admin session
+    saveSession(json.sessionToken, 'admin');
     enterAdmin();
-  } else {
+  } catch(e) {
     errEl.style.display='block';
   }
 }
@@ -2035,7 +2277,7 @@ async function submitLeave(){
     const approverName   = approverCode   ? (employees.find(e=>norm(e.code)===norm(approverCode))||{}).name||''   : '';
 
     const qs1 = new URLSearchParams({
-      action:'submitLeave', token: API_TOKEN,
+      action:'submitLeave',
       empCode: currentEmp.code, empName: currentEmp.name,
       leaveType: submittedLeaveType,
       fromDate: submittedFromDate, toDate: submittedToDate,
@@ -2045,8 +2287,9 @@ async function submitLeave(){
       forwarder2Code, forwarder2Name,
       approverCode, approverName
     });
-    const res  = await fetch(`${PROXY_URL}?${qs1.toString()}`);
-    const json = await res.json();
+    const resText = await apiFetch(`${PROXY_URL}?${qs1.toString()}`);
+    const json = resText ? JSON.parse(resText) : null;
+    if(!json) return;
     if(json.success){
       let nextStep;
       if(forwarderCode)       nextStep = `Awaiting review by ${forwarderName||'Forwarder 1'} (Level 1).`;
@@ -2210,8 +2453,8 @@ function buildCalendar(emp, mobileNavTrigger){
 // ===== DATA FETCHING (via PROXY_URL + token) =====
 async function fetchMasterFileIDs(){
   try{
-    const resp=await fetch(`${PROXY_URL}?action=getMasterFile&token=${API_TOKEN}`);
-    const raw=await resp.text();
+    const raw=await apiFetch(`${PROXY_URL}?action=getMasterFile`);
+    if(!raw) return false;
     const bin=window.atob(raw.trim());
     const bytes=new Uint8Array(bin.length);
     for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
@@ -2245,8 +2488,8 @@ async function fetchLeaveData(){
   try{
     const sheets=['Leave Balance','Leave History','Optional Holidays','Birthdays','General Holidays','Taxes'];
     const res=await Promise.allSettled(sheets.map(async s=>{
-      const url=`${PROXY_URL}?action=getSheet&sheetName=${encodeURIComponent(s)}&token=${API_TOKEN}`;
-      const text=await(await fetch(url)).text();
+      const text=await apiFetch(`${PROXY_URL}?action=getSheet&sheetName=${encodeURIComponent(s)}`);
+      if(!text) return [];
       const data=JSON.parse(text.substring(text.indexOf('{'),text.lastIndexOf('}')+1));
       const cols=data.table.cols.map(c=>(c.label||'').trim());
       return(data.table.rows||[]).map(row=>{
@@ -2678,8 +2921,7 @@ async function buildLoginLog(){
 
   // Fetch login log from sheet via Apps Script
   try{
-    const url=`${PROXY_URL}?action=getLoginLog&token=${API_TOKEN}`;
-    const text=await(await fetch(url)).text();
+    const text=await apiFetch(`${PROXY_URL}?action=getLoginLog`);
     let data;
     try{
       data=JSON.parse(text);
@@ -3132,7 +3374,7 @@ function showLogin(){
   document.getElementById('pgLogin').style.display='flex';
   document.getElementById('navbar').classList.remove('show');
 }
-function logout(){clearTimeout(idleTimer);clearInterval(countdownTimer);currentEmp=null;location.reload();}
+function logout(){clearTimeout(idleTimer);clearInterval(countdownTimer);currentEmp=null;currentPen=null;_penDetails=null;document.getElementById('pgPensioner').style.display='none';clearSession();location.reload();}
 
 // ===== CHANGE PASSWORD =====
 function toggleChangePwd(){
@@ -3181,12 +3423,12 @@ async function submitChangePassword(){
     const hashedNew = await sha256(newVal);
     const qs = new URLSearchParams({
       action: 'changePassword',
-      token:  API_TOKEN,
       empCode: currentEmp.code,
       newPwdHash: hashedNew
     });
-    const res  = await fetch(`${PROXY_URL}?${qs.toString()}`);
-    const json = await res.json();
+    const resText = await apiFetch(`${PROXY_URL}?${qs.toString()}`);
+    const json = resText ? JSON.parse(resText) : null;
+    if(!json) return;
     if(json.success){
       // Update in-memory so re-login works immediately without page reload
       currentEmp.customPwd = hashedNew;
@@ -3446,15 +3688,15 @@ async function confirmFwAction(){
     }
     const qs2 = new URLSearchParams({
       action: apiAction,
-      token: API_TOKEN,
       empCode, rowIndex,
       forwarderCode: norm(currentEmp.code),
       forwarderName: currentEmp.name,
       remarks,
       forwardedOn: new Date().toISOString().slice(0,10)
     });
-    const res=await fetch(`${PROXY_URL}?${qs2.toString()}`);
-    const json=await res.json();
+    const resText=await apiFetch(`${PROXY_URL}?${qs2.toString()}`);
+    const json=resText?JSON.parse(resText):null;
+    if(!json) return;
     if(json.success){
       const card=document.getElementById('card_'+id);
       if(card) card.remove();
@@ -3615,15 +3857,15 @@ async function confirmApAction(){
   try{
     const qs3 = new URLSearchParams({
       action: action==='approve'?'approveLeave':'rejectLeave',
-      token: API_TOKEN,
       empCode, rowIndex,
       approverCode: norm(currentEmp.code),
       approverName: currentEmp.name,
       remarks,
       decisionOn: new Date().toISOString().slice(0,10)
     });
-    const res=await fetch(`${PROXY_URL}?${qs3.toString()}`);
-    const json=await res.json();
+    const resText=await apiFetch(`${PROXY_URL}?${qs3.toString()}`);
+    const json=resText?JSON.parse(resText):null;
+    if(!json) return;
     if(json.success){
       await fetchLeaveData();
       loadApproverQueue();
@@ -3648,6 +3890,228 @@ async function refreshApproverQueue(){
 window.addEventListener('DOMContentLoaded',()=>{
   initPortal();
 });
+
+// =====================================================================
+// PENSIONER FEATURE — JS
+// =====================================================================
+
+async function doPensionerLogin(code, rawPwd){
+  const errEl  = document.getElementById('loginErr');
+  const btnEl  = document.getElementById('loginBtn');
+  const loadEl = document.getElementById('loginLoading');
+
+  if(!code || !rawPwd){
+    errEl.textContent='Please enter Pensioner ID and Password.';
+    errEl.style.display='block'; return;
+  }
+  const hashedPwd = await sha256(rawPwd);
+  errEl.style.display='none';
+  loadEl.style.display='block';
+  btnEl.disabled=true; btnEl.textContent='Signing in...';
+
+  try{
+    const qs  = new URLSearchParams({action:'login', empCode:code, pwdHash:hashedPwd});
+    const res = await fetch(`${PROXY_URL}?${qs.toString()}`);
+    const json= await res.json();
+
+    if(!json.success){
+      errEl.textContent = json.error||'Invalid Pensioner ID or Password.';
+      errEl.style.display='block';
+      loadEl.style.display='none';
+      btnEl.disabled=false; btnEl.textContent='Sign In';
+      return;
+    }
+
+    saveSession(json.sessionToken,'pensioner');
+
+    const pen = pensioners.find(p=>p.id===json.empCode);
+    if(!pen){
+      errEl.textContent='Login succeeded but pensioner profile not found. Please refresh.';
+      errEl.style.display='block';
+      loadEl.style.display='none';
+      btnEl.disabled=false; btnEl.textContent='Sign In';
+      return;
+    }
+    currentPen = pen;
+
+    // Last login badge
+    const llKey    = 'tgerc_lastlogin_'+code;
+    const lastLogin= localStorage.getItem(llKey);
+    if(lastLogin){
+      const badge=document.getElementById('lastLoginBadge');
+      badge.textContent='Last login: '+lastLogin;
+      badge.style.display='block';
+    }
+    localStorage.setItem(llKey, new Date().toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}));
+
+    document.getElementById('pgLogin').style.display     = 'none';
+    document.getElementById('pgPensioner').style.display = 'block';
+    document.getElementById('navbar').classList.add('show');
+    document.getElementById('navName').textContent = pen.name;
+    document.getElementById('navAv').textContent   = initials(pen.name);
+
+    loadEl.style.display='none';
+    btnEl.disabled=false; btnEl.textContent='Sign In';
+
+    await loadPensionerDashboard(pen);
+    resetIdle();
+
+  }catch(err){
+    errEl.textContent='❌ Login error: '+err.message;
+    errEl.style.display='block';
+    loadEl.style.display='none';
+    btnEl.disabled=false; btnEl.textContent='Sign In';
+  }
+}
+
+async function loadPensionerDashboard(pen){
+  document.getElementById('penLoadingBar').style.display='block';
+  document.getElementById('penError').style.display='none';
+  try{
+    const qs  = new URLSearchParams({action:'getPensionerDetails', empCode:pen.id});
+    const txt = await apiFetch(`${PROXY_URL}?${qs.toString()}`);
+    const json= txt?JSON.parse(txt):null;
+    if(!json||!json.success) throw new Error(json?.error||'Failed to load pension details.');
+    _penDetails = json.data;
+    renderPensionerDashboard(pen, _penDetails);
+  }catch(err){
+    const e=document.getElementById('penError');
+    e.textContent='⚠ '+err.message;
+    e.style.display='block';
+  }
+  document.getElementById('penLoadingBar').style.display='none';
+}
+
+function renderPensionerDashboard(pen, d){
+  const fmtCur = v=>{
+    const n=parseFloat(v);
+    if(!n&&n!==0) return '--';
+    return '₹ '+n.toLocaleString('en-IN',{maximumFractionDigits:0});
+  };
+  const fmtPenDate = v=>{
+    if(!v) return '--';
+    const dt=new Date(v);
+    if(isNaN(dt)) return String(v);
+    return dt.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+  };
+
+  // Header
+  document.getElementById('penAv').textContent        = initials(pen.name);
+  document.getElementById('penName').textContent      = d['Name']||pen.name;
+  document.getElementById('penIdDisplay').textContent = 'Pensioner ID: '+pen.id;
+  document.getElementById('penPPO').textContent       = d['PPO Number']||'--';
+
+  // Info cards
+  document.getElementById('penDOB').textContent    = fmtPenDate(d['Date of Birth']||pen.dob);
+  document.getElementById('penDOR').textContent    = fmtPenDate(d['Date of Retirement']||pen.dor);
+  document.getElementById('penDesg').textContent   = d['Designation at Retirement']||pen.desg||'--';
+  document.getElementById('penDept').textContent   = d['Department']||pen.dept||'--';
+  document.getElementById('penLIC').textContent    = d['LIC Policy / Annuity Number']||'--';
+  document.getElementById('penGender').textContent = d['Gender']||pen.gender||'--';
+  document.getElementById('penSpouse').textContent = d['Spouse Name']||'--';
+
+  // Years since retirement
+  const dorRaw = d['Date of Retirement']||pen.dor;
+  if(dorRaw){
+    const dorDate=new Date(dorRaw);
+    if(!isNaN(dorDate)){
+      const now=new Date();
+      let yrs=now.getFullYear()-dorDate.getFullYear();
+      let mnths=now.getMonth()-dorDate.getMonth();
+      if(mnths<0){yrs--;mnths+=12;}
+      document.getElementById('penYSR').textContent=`${yrs}y ${mnths}m`;
+    }
+  }
+
+  // Pension amounts
+  const basicPension   = parseFloat(d['Basic Pension'])||0;
+  const afterCommute   = parseFloat(d['Pension after Commutation'])||0;
+  const commutedAmt    = parseFloat(d['Commuted Amount'])||0;
+  const familyPension  = parseFloat(d['Family Pension Amount'])||0;
+  const daPct          = parseFloat(d['DA Percentage'])||0;
+  const revisedPension = parseFloat(d['Revised Pension (with DA)'])||(afterCommute*(1+daPct/100));
+  const commutePeriod  = d['Commutation Period']||'--';
+
+  document.getElementById('penBasic').textContent         = fmtCur(basicPension);
+  document.getElementById('penAfterCommute').textContent  = fmtCur(afterCommute);
+  document.getElementById('penRevised').textContent       = fmtCur(revisedPension);
+  document.getElementById('penCommuted').textContent      = fmtCur(commutedAmt);
+  document.getElementById('penFamily').textContent        = familyPension?fmtCur(familyPension):'N/A';
+  document.getElementById('penCommutePeriod').textContent = commutePeriod;
+  document.getElementById('penDABadge').textContent       = 'DA: '+daPct+'%';
+  document.getElementById('penFamilyNominee').textContent = 'Nominee: '+(d['Family Pension Nominee']||'--');
+
+  // DA summary
+  const daAmt = Math.round(afterCommute*daPct/100);
+  document.getElementById('penDABasic').textContent   = fmtCur(afterCommute);
+  document.getElementById('penDAPct').textContent     = daPct+' %';
+  document.getElementById('penDAAmount').textContent  = fmtCur(daAmt);
+  document.getElementById('penDARevised').textContent = fmtCur(revisedPension);
+
+  // Commutation bar
+  if(basicPension>0&&commutedAmt>0){
+    const pct=Math.min(100,Math.round((afterCommute/basicPension)*100));
+    document.getElementById('penCommuteBarWrap').style.display='block';
+    document.getElementById('penCommuteBarFill').style.width=pct+'%';
+    document.getElementById('penCommuteBarPct').textContent=pct+'%';
+    document.getElementById('penCommuteBarLabel').textContent=
+      'Pension after commutation is '+pct+'% of basic pension. Commuted: '+fmtCur(commutedAmt)+'. Period: '+commutePeriod+'.';
+  }
+
+  // Show all sections
+  ['penHeader','penInfoGrid','penChPwdWrap','penAmountsSection','penDASection'].forEach(id=>{
+    document.getElementById(id).style.display='';
+  });
+}
+
+function togglePenChangePwd(){
+  const body   =document.getElementById('penChPwdBody');
+  const chevron=document.getElementById('penChPwdChevron');
+  const open   =body.style.display==='none';
+  body.style.display  =open?'block':'none';
+  chevron.textContent =open?'▲ Hide':'▼ Show';
+}
+
+async function submitPensionerChangePassword(){
+  const current =document.getElementById('penCpCurrent').value.trim();
+  const newPwd  =document.getElementById('penCpNew').value.trim();
+  const confirm =document.getElementById('penCpConfirm').value.trim();
+  const msgEl   =document.getElementById('penCpMsg');
+
+  const show=(txt,ok)=>{
+    msgEl.textContent  =txt;
+    msgEl.style.color  =ok?'var(--success)':'var(--danger)';
+    msgEl.style.display='block';
+  };
+
+  if(!current||!newPwd||!confirm){show('All fields are required.',false);return;}
+  if(newPwd.length<4)            {show('New password must be at least 4 characters.',false);return;}
+  if(newPwd!==confirm)           {show('New passwords do not match.',false);return;}
+
+  // Client-side current password check (only possible when customPwd is set)
+  if(currentPen.customPwd){
+    const currentHash=await sha256(current);
+    if(currentHash!==currentPen.customPwd){show('Current password is incorrect.',false);return;}
+  }
+
+  const newHash=await sha256(newPwd);
+  try{
+    const qs  =new URLSearchParams({action:'changePensionerPassword',empCode:currentPen.id,newPwdHash:newHash});
+    const txt =await apiFetch(`${PROXY_URL}?${qs.toString()}`);
+    const json=txt?JSON.parse(txt):null;
+    if(json&&json.success){
+      currentPen.customPwd=newHash;
+      document.getElementById('penCpCurrent').value='';
+      document.getElementById('penCpNew').value='';
+      document.getElementById('penCpConfirm').value='';
+      show('✅ Password updated successfully!',true);
+    }else{
+      show('❌ '+(json?.error||'Failed to update password.'),false);
+    }
+  }catch(err){
+    show('❌ Error: '+err.message,false);
+  }
+}
 </script>
 </body>
 </html>
