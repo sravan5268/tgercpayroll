@@ -7,6 +7,7 @@ const API_TOKEN = process.env.API_TOKEN;  // Your secret token
 
 // Actions that are allowed through this proxy
 const ALLOWED_ACTIONS = [
+  'login',
   'getEmployees',
   'getConfig',
   'getNotices',
@@ -21,6 +22,9 @@ const ALLOWED_ACTIONS = [
   'returnLeave',
   'approveLeave',
   'rejectLeave',
+  'getPensioners',
+  'getPensionerDetails',
+  'changePensionerPassword',
 ];
 
 exports.handler = async function (event) {
