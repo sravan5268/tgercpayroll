@@ -1057,7 +1057,7 @@ tr:hover td{background:#f5f9ff}
             <div class="pen-amt-sub">Current monthly pension</div>
           </div>
           <div class="pen-amt-card accent">
-            <div class="pen-amt-label">Revised Pension (with DA)</div>
+            <div class="pen-amt-label">Pension Payable</div>
             <div class="pen-amt-val" id="penRevised" style="color:#b45309">--</div>
             <div class="pen-amt-sub" id="penDABadge">DA: --%</div>
           </div>
@@ -1083,10 +1083,11 @@ tr:hover td{background:#f5f9ff}
     <div class="pen-section" id="penDASection" style="display:none">
       <div class="pen-section-hdr">📈 DA &amp; Commutation Summary</div>
       <div class="pen-section-body">
-        <div class="pen-da-row"><span class="pen-da-key">Pension after Commutation (base for DA)</span><span class="pen-da-val" id="penDABasic">₹ --</span></div>
-        <div class="pen-da-row"><span class="pen-da-key">Current DA Percentage</span><span class="pen-da-val" id="penDAPct">-- %</span></div>
-        <div class="pen-da-row"><span class="pen-da-key">DA Amount (per month)</span><span class="pen-da-val" id="penDAAmount">₹ --</span></div>
-        <div class="pen-da-row"><span class="pen-da-key">Revised Gross Pension (with DA)</span><span class="pen-da-val highlight" id="penDARevised">₹ --</span></div>
+      <div class="pen-da-row"><span class="pen-da-key">Basic Pension</span><span class="pen-da-val" id="penDABasic">₹ --</span></div>
+      <div class="pen-da-row"><span class="pen-da-key">Pension after Commutation</span><span class="pen-da-val" id="penDAAfterCommute">₹ --</span></div>
+      <div class="pen-da-row"><span class="pen-da-key">DA % (on Basic Pension)</span><span class="pen-da-val" id="penDAPct">-- %</span></div>
+      <div class="pen-da-row"><span class="pen-da-key">Dearness Allowance</span><span class="pen-da-val" id="penDAAmount">₹ --</span></div>
+      <div class="pen-da-row"><span class="pen-da-key">Pension Payable (After Commutation + DA)</span><span class="pen-da-val highlight" id="penDARevised">₹ --</span></div>
         <div class="pen-commute-bar-wrap" id="penCommuteBarWrap" style="display:none">
           <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted)"><span>Pension Retained after Commutation</span><span id="penCommuteBarPct">--%</span></div>
           <div class="pen-commute-bar-bg"><div class="pen-commute-bar-fill" id="penCommuteBarFill" style="width:0%"></div></div>
@@ -4028,13 +4029,14 @@ function renderPensionerDashboard(pen, d){
   const afterCommute   = parseFloat(d['Pension after Commutation'])||0;
   const commutedAmt    = parseFloat(d['Commuted Amount'])||0;
   const familyPension  = parseFloat(d['Family Pension Amount'])||0;
-  const daPct          = parseFloat(d['DA Percentage'])||0;
-  const revisedPension = parseFloat(d['Revised Pension (with DA)'])||(afterCommute*(1+daPct/100));
+  const daPct          = parseFloat(d['DA Percentage Cal on Basic Pension'])||0;
+  const daAmt          = parseFloat(d['Dearness Allowance'])||0;
+  const pensionPayable = parseFloat(d['Pension Payable'])||0;
   const commutePeriod  = d['Commutation Period']||'--';
 
   document.getElementById('penBasic').textContent         = fmtCur(basicPension);
   document.getElementById('penAfterCommute').textContent  = fmtCur(afterCommute);
-  document.getElementById('penRevised').textContent       = fmtCur(revisedPension);
+  document.getElementById('penRevised').textContent       = fmtCur(pensionPayable);
   document.getElementById('penCommuted').textContent      = fmtCur(commutedAmt);
   document.getElementById('penFamily').textContent        = familyPension?fmtCur(familyPension):'N/A';
   document.getElementById('penCommutePeriod').textContent = commutePeriod;
@@ -4042,11 +4044,11 @@ function renderPensionerDashboard(pen, d){
   document.getElementById('penFamilyNominee').textContent = 'Nominee: '+(d['Family Pension Nominee']||'--');
 
   // DA summary
-  const daAmt = Math.round(afterCommute*daPct/100);
-  document.getElementById('penDABasic').textContent   = fmtCur(afterCommute);
-  document.getElementById('penDAPct').textContent     = daPct+' %';
-  document.getElementById('penDAAmount').textContent  = fmtCur(daAmt);
-  document.getElementById('penDARevised').textContent = fmtCur(revisedPension);
+  document.getElementById('penDABasic').textContent        = fmtCur(basicPension);
+  document.getElementById('penDAAfterCommute').textContent = fmtCur(afterCommute);
+  document.getElementById('penDAPct').textContent          = daPct+' %';
+  document.getElementById('penDAAmount').textContent       = fmtCur(daAmt);
+  document.getElementById('penDARevised').textContent      = fmtCur(pensionPayable);
 
   // Commutation bar
   if(basicPension>0&&commutedAmt>0){
