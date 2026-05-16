@@ -1095,6 +1095,30 @@ tr:hover td{background:#f5f9ff}
         </div>
       </div>
     </div>
+          <div class="pen-section" id="penAnnuitySection" style="display:none">
+        <div class="pen-section-hdr">🏦 LIC Annuity Breakdown</div>
+        <div class="pen-section-body">
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Annuity Number</th>
+                  <th style="text-align:right">Monthly Amount</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody id="penAnnuityBody"></tbody>
+              <tfoot>
+                <tr style="background:var(--blue-light)">
+                  <td style="font-weight:700;color:var(--blue)">Total Monthly Pension</td>
+                  <td style="text-align:right;font-weight:800;font-size:16px;color:var(--blue)" id="penAnnuityTotal">₹ --</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
 
     <div style="text-align:center;font-size:12px;color:var(--muted);padding:.75rem;margin-bottom:1rem">
       For any discrepancies in your pension details, please contact TGERC Accounts Section.
@@ -3983,7 +4007,42 @@ async function loadPensionerDashboard(pen){
   document.getElementById('penLoadingBar').style.display='none';
 }
 
-function renderPensionerDashboard(pen, d){
+  async function loadPensionerDashboard(pen){
+  document.getElementById('penLoadingBar').style.display='block';
+  document.getElementById('penError').style.display='none';
+  try{
+    // Existing details fetch
+    const qs  = new URLSearchParams({action:'getPensionerDetails', empCode:pen.id});
+    const txt = await apiFetch(`${PROXY_URL}?${qs.toString()}`);
+    const json= txt?JSON.parse(txt):null;
+    if(!json||!json.success) throw new Error(json?.error||'Failed to load pension details.');
+    _penDetails = json.data;
+
+    // NEW — fetch annuities
+    const annText = await apiFetch(`${PROXY_URL}?action=getSheet&sheetName=Pensioner%20Annuities`);
+    let penAnnuities = [];
+    if(annText){
+      try{
+        const data = JSON.parse(annText.substring(annText.indexOf('{'), annText.lastIndexOf('}')+1));
+        const cols = data.table.cols.map(c=>(c.label||'').trim());
+        const rows = (data.table.rows||[]).map(row=>{
+          const obj={};
+          (row.c||[]).forEach((cell,i)=>{ if(cols[i]) obj[cols[i]] = cell?cell.v:null; });
+          return obj;
+        });
+        penAnnuities = rows.filter(r=>String(r['Pensioner ID']||'').trim() === pen.id);
+      } catch(e){ console.warn('Annuity fetch parse error:', e); }
+    }
+
+    renderPensionerDashboard(pen, _penDetails, penAnnuities);
+  }catch(err){
+    const e=document.getElementById('penError');
+    e.textContent='⚠ '+err.message;
+    e.style.display='block';
+  }
+  document.getElementById('penLoadingBar').style.display='none';
+}
+function renderPensionerDashboard(pen, d, annuities){
   const fmtCur = v=>{
     const n=parseFloat(v);
     if(!n&&n!==0) return '--';
@@ -4059,11 +4118,32 @@ function renderPensionerDashboard(pen, d){
     document.getElementById('penCommuteBarLabel').textContent=
       'Pension after commutation is '+pct+'% of basic pension. Commuted: '+fmtCur(commutedAmt)+'. Period: '+commutePeriod+'.';
   }
+  // Annuities
+  const annuitySection = document.getElementById('penAnnuitySection');
+  const annuityBody    = document.getElementById('penAnnuityBody');
+  const annuityTotal   = document.getElementById('penAnnuityTotal');
 
+  if(annuities && annuities.length){
+    annuitySection.style.display = '';
+    let total = 0;
+    annuityBody.innerHTML = annuities.map(a=>{
+      const amt = parseFloat(a['Monthly Amount'])||0;
+      total += amt;
+      return `<tr>
+        <td style="font-weight:600">${a['Annuity Number']||'--'}</td>
+        <td style="text-align:right">${fmtCur(amt)}</td>
+        <td style="font-size:12px;color:var(--muted)">${a['Notes']||''}</td>
+      </tr>`;
+    }).join('');
+    annuityTotal.textContent = fmtCur(total);
+  } else {
+    annuitySection.style.display = 'none';
+  }
   // Show all sections
   ['penHeader','penInfoGrid','penChPwdWrap','penAmountsSection','penDASection'].forEach(id=>{
-    document.getElementById(id).style.display='';
-  });
+  document.getElementById(id).style.display='';
+});
+// penAnnuitySection is shown conditionally above only if data exists
 }
 
 function togglePenChangePwd(){
