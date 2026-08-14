@@ -406,56 +406,39 @@ tr:hover td{background:#f5f9ff}
 .kyt-no-data-icon{font-size:42px;margin-bottom:.75rem}
 .kyt-no-data-title{font-size:15px;font-weight:700;color:var(--blue);margin-bottom:.4rem}
 
-@media(max-width:700px){
-  .kyt-metrics{grid-template-columns:repeat(2,1fr)}
-  #knowtax-tab .kyt-header{flex-direction:column;align-items:flex-start}
-}
+/* ── FORGOT PASSWORD ── */
+#fpPanel{display:none;margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem}
+.fp-step{display:none}.fp-step.active{display:block}
+.fp-otp-input{letter-spacing:.35em;font-size:20px;font-weight:700;text-align:center;width:100%;padding:10px;border:2px solid var(--blue);border-radius:6px;outline:none;box-sizing:border-box;font-family:inherit}
+.fp-timer{font-size:11px;color:var(--muted);text-align:center;margin-top:4px}
+.fp-timer.urgent{color:#b71c1c;font-weight:700}
+.fp-msg{font-size:12px;font-weight:600;margin-top:6px;display:none;text-align:center}
 
-/* ── PENSIONER PAGE ── */
-#pgPensioner{display:none;min-height:calc(100vh - 54px);background:#f0f4f8}
-.pen-wrap{max-width:960px;margin:0 auto;padding:1.25rem 1rem}
-.pen-header{background:linear-gradient(135deg,#1a3c5e 0%,#0d5c8c 100%);border-radius:10px;padding:1.5rem 1.75rem;color:#fff;display:flex;align-items:center;gap:1.25rem;margin-bottom:1.25rem;box-shadow:0 4px 16px rgba(26,60,94,.25)}
-.pen-avatar{width:62px;height:62px;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;flex-shrink:0}
-.pen-name{font-size:20px;font-weight:800;margin-bottom:3px}
-.pen-id{font-size:12px;opacity:.78;margin-bottom:4px}
-.pen-badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:10px;font-size:11px;font-weight:700;padding:2px 10px;letter-spacing:.3px}
-.pen-header-right{margin-left:auto;text-align:right}
-.pen-header-right .pen-ppo-label{font-size:11px;opacity:.7}
-.pen-header-right .pen-ppo-val{font-size:15px;font-weight:800}
-.pen-info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem;margin-bottom:1.25rem}
-.pen-info-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:.8rem 1rem;position:relative;overflow:hidden}
-.pen-info-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--blue)}
-.pen-info-label{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:4px;font-weight:600}
-.pen-info-val{font-size:14px;font-weight:700;color:#1a2a3a;word-break:break-word}
-.pen-section{background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:1.1rem;overflow:hidden}
-.pen-section-hdr{background:var(--blue-light);padding:.75rem 1.25rem;font-size:13px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:.5rem;border-bottom:1px solid var(--border)}
-.pen-section-body{padding:1.1rem 1.25rem}
-.pen-amounts{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-.pen-amt-card{border-radius:8px;padding:1rem 1.1rem;text-align:center}
-.pen-amt-card.primary{background:linear-gradient(135deg,#1a3c5e,#0d5c8c);color:#fff}
-.pen-amt-card.secondary{background:#e6f5ed;border:1px solid #a5d6a7}
-.pen-amt-card.accent{background:#fff3e0;border:1px solid #ffcc80}
-.pen-amt-card.purple{background:#ede7f6;border:1px solid #ce93d8}
-.pen-amt-card.teal{background:#e0f7fa;border:1px solid #80deea}
-.pen-amt-card.red{background:#fce8e8;border:1px solid #ef9a9a}
-.pen-amt-label{font-size:11px;opacity:.75;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;font-weight:600}
-.pen-amt-val{font-size:22px;font-weight:800}
-.pen-amt-sub{font-size:11px;margin-top:4px;opacity:.7}
-.pen-amt-card.primary .pen-amt-label{color:rgba(255,255,255,.85)}
-.pen-amt-card.primary .pen-amt-sub{color:rgba(255,255,255,.7)}
-.pen-da-row{display:flex;align-items:center;justify-content:space-between;padding:.65rem 0;border-bottom:1px solid var(--border);font-size:13px}
-.pen-da-row:last-child{border-bottom:none}
-.pen-da-key{color:var(--muted);font-weight:500}
-.pen-da-val{font-weight:700;color:#1a2a3a}
-.pen-da-val.highlight{color:var(--blue);font-size:15px}
-.pen-commute-bar-wrap{margin:1rem 0 .5rem}
-.pen-commute-bar-bg{background:#e9ecef;border-radius:6px;height:10px;overflow:hidden;margin-top:6px}
-.pen-commute-bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#1a3c5e,#0d7377);transition:width .6s ease}
-.pen-commute-label{font-size:11px;color:var(--muted);margin-top:4px}
-.pen-chpwd-wrap{background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:1.1rem}
-.pen-chpwd-hdr{background:var(--blue-light);padding:.65rem 1.1rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
-.pen-chpwd-title{font-size:13px;font-weight:700;color:var(--blue)}
-@media(max-width:700px){.pen-info-grid{grid-template-columns:repeat(2,1fr)}.pen-header{flex-direction:column;align-items:flex-start}.pen-header-right{margin-left:0;text-align:left}.pen-amounts{grid-template-columns:1fr 1fr}}
+/* ── PROFILE TAB ── */
+#profile-tab .prof-section{background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:1rem;overflow:hidden}
+#profile-tab .prof-section-hdr{background:var(--blue-light);padding:.75rem 1.25rem;font-size:13px;font-weight:700;color:var(--blue);border-bottom:1px solid var(--border)}
+#profile-tab .prof-section-body{padding:1.1rem 1.25rem}
+#profile-tab .prof-field-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+#profile-tab .prof-field{display:flex;flex-direction:column;gap:4px}
+#profile-tab .prof-field label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+#profile-tab .prof-field input{padding:8px 11px;border:1px solid var(--border);border-radius:5px;font-size:13px;font-family:inherit;outline:none;transition:border .2s}
+#profile-tab .prof-field input:focus{border-color:var(--blue)}
+#profile-tab .prof-field input[readonly]{background:#f8f9fb;color:var(--muted);cursor:not-allowed}
+#profile-tab .prof-readonly-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem;margin-bottom:1rem}
+#profile-tab .prof-ro-card{background:#f8f9fb;border:1px solid var(--border);border-radius:7px;padding:.7rem 1rem;position:relative;overflow:hidden}
+#profile-tab .prof-ro-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--muted)}
+#profile-tab .prof-ro-label{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:3px;font-weight:600}
+#profile-tab .prof-ro-val{font-size:13px;font-weight:700;color:#1a2a3a;word-break:break-word}
+.prof-save-bar{display:flex;align-items:center;gap:.75rem;margin-top:1rem}
+.prof-save-btn{background:var(--blue);color:#fff;border:none;padding:9px 24px;border-radius:5px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s}
+.prof-save-btn:hover{background:#0d5c8c}
+.prof-save-btn:disabled{background:var(--muted);cursor:not-allowed}
+#profMsg{font-size:12px;font-weight:600;display:none}
+.prof-updated{font-size:11px;color:var(--muted);margin-top:.5rem;font-style:italic}
+@media(max-width:700px){
+  #profile-tab .prof-field-grid{grid-template-columns:1fr}
+  #profile-tab .prof-readonly-grid{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
@@ -501,7 +484,51 @@ tr:hover td{background:#f5f9ff}
     <div class="fg"><label>Employee Code</label><input type="text" id="inCode" placeholder="e.g. 1046" onkeydown="if(event.key==='Enter')document.getElementById('inPwd').focus()"/></div>
     <div class="fg"><label>Password (Last 4 digits of Bank A/C)</label><input type="password" id="inPwd" placeholder="Enter 4-digit password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
     <button class="login-btn" id="loginBtn" onclick="doLogin()">Sign In</button>
-    <div style="text-align:center;margin-top:1rem;font-size:12px;color:var(--muted)"><a href="javascript:void(0)" onclick="toggleAdminForm()" style="color:var(--accent);text-decoration:underline">Admin Login</a></div>
+    <div style="text-align:center;margin-top:.75rem;font-size:12px;color:var(--muted);display:flex;justify-content:center;gap:1.2rem">
+      <a href="javascript:void(0)" onclick="toggleAdminForm()" style="color:var(--accent);text-decoration:underline">Admin Login</a>
+      <a href="javascript:void(0)" onclick="toggleForgotPwd()" style="color:var(--accent);text-decoration:underline">Forgot Password?</a>
+    </div>
+
+    <!-- ── FORGOT PASSWORD PANEL ── -->
+    <div id="fpPanel">
+      <!-- Step 1: Enter employee code -->
+      <div class="fp-step active" id="fpStep1">
+        <div class="fg" style="margin-top:.5rem">
+          <label>Enter your Employee Code</label>
+          <input type="text" id="fpCode" placeholder="e.g. 1046" style="width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:5px;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box"/>
+        </div>
+        <button onclick="requestOTP()" style="width:100%;background:var(--teal,#0d7377);color:#fff;border:none;padding:9px;border-radius:5px;font-size:13px;font-weight:600;cursor:pointer;margin-top:.5rem" id="fpSendBtn">Send OTP to Registered Email</button>
+        <div class="fp-msg" id="fpMsg1"></div>
+      </div>
+      <!-- Step 2: Enter OTP + new password -->
+      <div class="fp-step" id="fpStep2">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:.75rem;text-align:center" id="fpEmailHint"></div>
+        <div class="fg">
+          <label>Enter OTP</label>
+          <input type="text" id="fpOTP" maxlength="6" placeholder="6-digit OTP" class="fp-otp-input" oninput="this.value=this.value.replace(/[^0-9]/g,'')"/>
+          <div class="fp-timer" id="fpTimer">OTP valid for <span id="fpTimerCount">10:00</span></div>
+        </div>
+        <div class="fg" style="margin-top:.5rem">
+          <label>New Password <span style="font-weight:400">(min 4 chars)</span></label>
+          <input type="password" id="fpNewPwd" placeholder="New password" style="width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:5px;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box"/>
+        </div>
+        <div class="fg" style="margin-top:.5rem">
+          <label>Confirm New Password</label>
+          <input type="password" id="fpConfirmPwd" placeholder="Confirm new password" style="width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:5px;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box"/>
+        </div>
+        <button onclick="verifyOTPAndReset()" style="width:100%;background:var(--blue);color:#fff;border:none;padding:9px;border-radius:5px;font-size:13px;font-weight:600;cursor:pointer;margin-top:.5rem" id="fpVerifyBtn">Reset Password</button>
+        <div style="text-align:center;margin-top:.5rem"><a href="javascript:void(0)" onclick="fpResend()" style="font-size:11px;color:var(--accent);text-decoration:underline">Resend OTP</a></div>
+        <div class="fp-msg" id="fpMsg2"></div>
+      </div>
+      <!-- Step 3: Success -->
+      <div class="fp-step" id="fpStep3" style="text-align:center;padding:1rem 0">
+        <div style="font-size:32px">✅</div>
+        <div style="font-size:14px;font-weight:700;color:var(--blue);margin:.5rem 0">Password Reset Successful!</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:.75rem">You can now log in with your new password.</div>
+        <button onclick="closeForgotPwd()" style="background:var(--blue);color:#fff;border:none;padding:8px 20px;border-radius:5px;font-size:13px;font-weight:600;cursor:pointer">Back to Login</button>
+      </div>
+    </div>
+
     <div id="adminForm" style="margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem;display:none">
       <div class="fg"><label>Admin Username</label><input type="text" id="adminUser" placeholder="Username" onkeydown="if(event.key==='Enter')doAdminLogin()"/></div>
       <div class="fg"><label>Admin Password</label><input type="password" id="adminPass" placeholder="Password" onkeydown="if(event.key==='Enter')doAdminLogin()"/></div>
@@ -575,6 +602,7 @@ tr:hover td{background:#f5f9ff}
       <div class="dash-tab" onclick="switchTab('knowtax')">💰 Know Tax</div>
       <div class="dash-tab" onclick="switchTab('leave')">🗓 Leave</div>
       <div class="dash-tab" onclick="switchTab('calendar')" id="calTabBtn">📅 Calendar</div>
+      <div class="dash-tab" onclick="switchTab('profile')">👤 My Profile</div>
     </div>
 
     <!-- ── HOME TAB ── -->
@@ -809,6 +837,65 @@ tr:hover td{background:#f5f9ff}
       <div class="cal-grid" id="calGrid"></div>
     </div>
 
+    <!-- ── PROFILE TAB ── -->
+    <div id="profile-tab" class="tab-content">
+      <div style="max-width:860px;margin:0 auto;padding:.5rem 0">
+
+        <!-- Read-only info -->
+        <div class="prof-section">
+          <div class="prof-section-hdr">🏛 Your Official Details <span style="font-size:11px;font-weight:400;color:var(--muted)">(managed by Administration — cannot be edited)</span></div>
+          <div class="prof-section-body">
+            <div class="prof-readonly-grid">
+              <div class="prof-ro-card"><div class="prof-ro-label">Employee Code</div><div class="prof-ro-val" id="prCode">--</div></div>
+              <div class="prof-ro-card"><div class="prof-ro-label">Full Name</div><div class="prof-ro-val" id="prName">--</div></div>
+              <div class="prof-ro-card"><div class="prof-ro-label">Designation</div><div class="prof-ro-val" id="prDesg">--</div></div>
+              <div class="prof-ro-card"><div class="prof-ro-label">Department</div><div class="prof-ro-val" id="prDept">--</div></div>
+              <div class="prof-ro-card"><div class="prof-ro-label">Category</div><div class="prof-ro-val" id="prCat">--</div></div>
+              <div class="prof-ro-card"><div class="prof-ro-label">Level of Pay</div><div class="prof-ro-val" id="prLevel">--</div></div>
+              <div class="prof-ro-card"><div class="prof-ro-label">Date of Joining</div><div class="prof-ro-val" id="prDoj">--</div></div>
+              <div class="prof-ro-card"><div class="prof-ro-label">PAN</div><div class="prof-ro-val" id="prPan">--</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Editable contact info -->
+        <div class="prof-section">
+          <div class="prof-section-hdr">📋 Your Contact Details <span style="font-size:11px;font-weight:400;color:var(--muted)">(you can update these)</span></div>
+          <div class="prof-section-body">
+            <div class="prof-field-grid">
+              <div class="prof-field">
+                <label>Mobile Number</label>
+                <input type="tel" id="prMobile" placeholder="10-digit mobile number" maxlength="10"/>
+              </div>
+              <div class="prof-field">
+                <label>Email Address</label>
+                <input type="email" id="prEmail" placeholder="Your email address"/>
+              </div>
+              <div class="prof-field">
+                <label>Emergency Contact Name</label>
+                <input type="text" id="prEmgName" placeholder="Name of emergency contact"/>
+              </div>
+              <div class="prof-field">
+                <label>Emergency Contact Number</label>
+                <input type="tel" id="prEmgPhone" placeholder="Emergency contact number" maxlength="10"/>
+              </div>
+            </div>
+            <div class="prof-field" style="margin-top:.75rem">
+              <label>Current Address</label>
+              <input type="text" id="prAddress" placeholder="Your current residential address"/>
+            </div>
+            <div class="prof-save-bar">
+              <button class="prof-save-btn" id="profSaveBtn" onclick="saveProfile()">💾 Save Profile</button>
+              <span id="profMsg"></span>
+            </div>
+            <div class="prof-updated" id="profUpdated"></div>
+            <div style="font-size:11px;color:var(--muted);margin-top:.5rem">⚠ Your email is also used for OTP-based password reset. Keep it up to date.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -993,140 +1080,6 @@ tr:hover td{background:#f5f9ff}
   </div>
 </div>
 
-<!-- ── PENSIONER PAGE ── -->
-<div id="pgPensioner">
-  <div class="pen-wrap">
-    <div style="background:#fdecea;color:#b71c1c;border-radius:8px;padding:1rem 1.25rem;font-size:13px;margin-bottom:1rem;display:none" id="penError"></div>
-    <div class="loading-bar" id="penLoadingBar" style="display:none">⏳ Loading your pension details...</div>
-
-    <div class="pen-header" id="penHeader" style="display:none">
-      <div class="pen-avatar" id="penAv">--</div>
-      <div>
-        <div class="pen-name"  id="penName">--</div>
-        <div class="pen-id"    id="penIdDisplay">Pensioner ID: --</div>
-        <span class="pen-badge">🏛 TGERC Pensioner</span>
-      </div>
-      <div class="pen-header-right">
-        <div class="pen-ppo-label">PPO Number</div>
-        <div class="pen-ppo-val" id="penPPO">--</div>
-      </div>
-    </div>
-
-    <div class="pen-info-grid" id="penInfoGrid" style="display:none">
-      <div class="pen-info-card"><div class="pen-info-label">Date of Birth</div><div class="pen-info-val" id="penDOB">--</div></div>
-      <div class="pen-info-card"><div class="pen-info-label">Date of Retirement</div><div class="pen-info-val" id="penDOR">--</div></div>
-      <div class="pen-info-card"><div class="pen-info-label">Designation at Retirement</div><div class="pen-info-val" id="penDesg">--</div></div>
-      <div class="pen-info-card"><div class="pen-info-label">Department</div><div class="pen-info-val" id="penDept">--</div></div>
-      <div class="pen-info-card"><div class="pen-info-label">LIC Annuity Number</div><div class="pen-info-val" id="penLIC">--</div></div>
-      <div class="pen-info-card"><div class="pen-info-label">Gender</div><div class="pen-info-val" id="penGender">--</div></div>
-      <div class="pen-info-card"><div class="pen-info-label">Spouse Name</div><div class="pen-info-val" id="penSpouse">--</div></div>
-      <div class="pen-info-card"><div class="pen-info-label">Years Since Retirement</div><div class="pen-info-val" id="penYSR">--</div></div>
-    </div>
-
-    <div class="pen-chpwd-wrap" id="penChPwdWrap" style="display:none">
-      <div class="pen-chpwd-hdr" onclick="togglePenChangePwd()">
-        <span class="pen-chpwd-title">🔐 Change Password</span>
-        <span id="penChPwdChevron" style="font-size:12px;color:var(--muted)">▼ Show</span>
-      </div>
-      <div id="penChPwdBody" style="display:none;padding:1rem 1.1rem">
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;align-items:end">
-          <div><label style="font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">Current Password</label><input type="password" id="penCpCurrent" placeholder="Current password" style="width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:5px;font-size:13px;outline:none;box-sizing:border-box"/></div>
-          <div><label style="font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">New Password <span style="font-weight:400">(min 4 chars)</span></label><input type="password" id="penCpNew" placeholder="New password" style="width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:5px;font-size:13px;outline:none;box-sizing:border-box"/></div>
-          <div><label style="font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">Confirm New Password</label><input type="password" id="penCpConfirm" placeholder="Confirm new password" style="width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:5px;font-size:13px;outline:none;box-sizing:border-box"/></div>
-        </div>
-        <div style="margin-top:.75rem;display:flex;align-items:center;gap:.75rem">
-          <button onclick="submitPensionerChangePassword()" style="background:var(--blue);color:#fff;border:none;padding:8px 20px;border-radius:5px;font-size:13px;font-weight:600;cursor:pointer">Update Password</button>
-          <span id="penCpMsg" style="display:none;font-size:12px;font-weight:600"></span>
-        </div>
-        <div style="font-size:11px;color:var(--muted);margin-top:.5rem">⚠ After changing, your new password will be used for all future logins.</div>
-      </div>
-    </div>
-
-    <div class="pen-section" id="penAmountsSection" style="display:none">
-      <div class="pen-section-hdr">💰 Pension Details</div>
-      <div class="pen-section-body">
-        <div class="pen-amounts">
-          <div class="pen-amt-card primary">
-            <div class="pen-amt-label">Basic Pension</div>
-            <div class="pen-amt-val" id="penBasic">--</div>
-            <div class="pen-amt-sub">Per month (pre-commutation)</div>
-          </div>
-          <div class="pen-amt-card secondary">
-            <div class="pen-amt-label">Pension after Commutation</div>
-            <div class="pen-amt-val" id="penAfterCommute" style="color:#1a7a4a">--</div>
-            <div class="pen-amt-sub">Current monthly pension</div>
-          </div>
-          <div class="pen-amt-card accent">
-            <div class="pen-amt-label">Pension Payable</div>
-            <div class="pen-amt-val" id="penRevised" style="color:#b45309">--</div>
-            <div class="pen-amt-sub" id="penDABadge">DA: --%</div>
-          </div>
-          <div class="pen-amt-card purple">
-            <div class="pen-amt-label">Commuted Amount</div>
-            <div class="pen-amt-val" id="penCommuted" style="color:#7c3aed">--</div>
-            <div class="pen-amt-sub">Lump sum received at retirement</div>
-          </div>
-          <div class="pen-amt-card teal">
-            <div class="pen-amt-label">Family Pension</div>
-            <div class="pen-amt-val" id="penFamily" style="color:#0d7377">--</div>
-            <div class="pen-amt-sub" id="penFamilyNominee">Nominee: --</div>
-          </div>
-          <div class="pen-amt-card red">
-            <div class="pen-amt-label">Commutation Period</div>
-            <div class="pen-amt-val" id="penCommutePeriod" style="color:#b71c1c;font-size:16px">--</div>
-            <div class="pen-amt-sub">Period of commutation</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="pen-section" id="penDASection" style="display:none">
-      <div class="pen-section-hdr">📈 DA &amp; Commutation Summary</div>
-      <div class="pen-section-body">
-      <div class="pen-da-row"><span class="pen-da-key">Basic Pension</span><span class="pen-da-val" id="penDABasic">₹ --</span></div>
-      <div class="pen-da-row"><span class="pen-da-key">Pension after Commutation</span><span class="pen-da-val" id="penDAAfterCommute">₹ --</span></div>
-      <div class="pen-da-row"><span class="pen-da-key">DA % (on Basic Pension)</span><span class="pen-da-val" id="penDAPct">-- %</span></div>
-      <div class="pen-da-row"><span class="pen-da-key">Dearness Allowance</span><span class="pen-da-val" id="penDAAmount">₹ --</span></div>
-      <div class="pen-da-row"><span class="pen-da-key">Pension Payable (After Commutation + DA)</span><span class="pen-da-val highlight" id="penDARevised">₹ --</span></div>
-        <div class="pen-commute-bar-wrap" id="penCommuteBarWrap" style="display:none">
-          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted)"><span>Pension Retained after Commutation</span><span id="penCommuteBarPct">--%</span></div>
-          <div class="pen-commute-bar-bg"><div class="pen-commute-bar-fill" id="penCommuteBarFill" style="width:0%"></div></div>
-          <div class="pen-commute-label" id="penCommuteBarLabel"></div>
-        </div>
-      </div>
-    </div>
-          <div class="pen-section" id="penAnnuitySection" style="display:none">
-        <div class="pen-section-hdr">🏦 LIC Annuity Breakdown</div>
-        <div class="pen-section-body">
-          <div class="table-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th>Annuity Number</th>
-                  <th style="text-align:right">Monthly Amount</th>
-                  <th>Notes</th>
-                </tr>
-              </thead>
-              <tbody id="penAnnuityBody"></tbody>
-              <tfoot>
-                <tr style="background:var(--blue-light)">
-                  <td style="font-weight:700;color:var(--blue)">Total Monthly Pension</td>
-                  <td style="text-align:right;font-weight:800;font-size:16px;color:var(--blue)" id="penAnnuityTotal">₹ --</td>
-                  <td></td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-        </div>
-      </div>
-
-    <div style="text-align:center;font-size:12px;color:var(--muted);padding:.75rem;margin-bottom:1rem">
-      For any discrepancies in your pension details, please contact TGERC Accounts Section.
-    </div>
-  </div>
-</div>
-<!-- ── END PENSIONER PAGE ── -->
-
 <script>
 // ===== CONSTANTS =====
 const PROXY_URL = '/api/proxy';
@@ -1184,8 +1137,10 @@ let adminConfig = {}; // populated on page load: { admin_user, admin_pass_hash }
 let fileIdMap={}, taxDocMap={}, months=[], leaveBalances=[], leaveHistory=[], optionalHolidays=[], generalHolidays=[], employeeBirthdays=[], taxData=[], notices=[], currentEmp=null;
 let _allPsRows=[], _currentLeaveHistory=[];
 
-// ── Pensioner globals ──
-let pensioners=[], currentPen=null, _penDetails=null;
+// ── OTP / Forgot Password globals ──
+let _fpTimerInterval = null;
+let _fpSecondsLeft   = 0;
+let _fpCurrentCode   = '';
 
 // ===== HELPERS =====
 function initials(n){return n.trim().split(/\s+/).filter(w=>/[A-Za-z]/.test(w)).slice(0,2).map(w=>w[0].toUpperCase()).join('');}
@@ -1303,16 +1258,17 @@ function calcWorkingDaysRemaining(){
 }
 
 function switchTab(t){
-  ['home','payslips','taxdocs','knowtax','leave','calendar'].forEach(x=>{
+  ['home','payslips','taxdocs','knowtax','leave','calendar','profile'].forEach(x=>{
     const el=document.getElementById(x+'-tab');
     if(el) el.classList.remove('active');
   });
   document.querySelectorAll('.dash-tab').forEach(x=>x.classList.remove('active'));
   document.getElementById(t+'-tab').classList.add('active');
-  const idx={'home':0,'payslips':1,'taxdocs':2,'knowtax':3,'leave':4,'calendar':5}[t];
+  const idx={'home':0,'payslips':1,'taxdocs':2,'knowtax':3,'leave':4,'calendar':5,'profile':6}[t];
   const tabs=document.querySelectorAll('.dash-tab');
   if(tabs[idx]) tabs[idx].classList.add('active');
   if(t==='calendar') buildCalendar(currentEmp);
+  if(t==='profile')  buildProfileTab(currentEmp);
 }
 
 function switchAdminTab(t){
@@ -1402,11 +1358,10 @@ async function initPortal(){
   btnEl.textContent = 'Loading...';
 
   try {
-    const [empRes, cfgRes, noticeRes, penRes] = await Promise.allSettled([
+    const [empRes, cfgRes, noticeRes] = await Promise.allSettled([
       fetch(`${PROXY_URL}?action=getEmployees`).then(r=>r.json()),
       fetch(`${PROXY_URL}?action=getConfig`).then(r=>r.json()),
       fetch(`${PROXY_URL}?action=getNotices`).then(r=>r.json()),
-      fetch(`${PROXY_URL}?action=getPensioners`).then(r=>r.json()),
     ]);
 
     if(empRes.status==='fulfilled' && empRes.value && !empRes.value.error){
@@ -1446,19 +1401,6 @@ async function initPortal(){
       notices = (noticeRes.value.data || []).filter(n=>String(n['Active']||'').toUpperCase()==='YES');
     }
 
-    if(penRes.status==='fulfilled' && penRes.value && !penRes.value.error){
-      pensioners = (penRes.value.data || []).map(r=>({
-        id:        String(r['Pensioner ID']||'').trim(),
-        name:      String(r['Name']||'').trim(),
-        gender:    String(r['Gender']||'').trim(),
-        dob:       r['Date of Birth']||null,
-        dor:       r['Date of Retirement']||null,
-        desg:      String(r['Designation at Retirement']||'').trim(),
-        dept:      String(r['Department']||'').trim(),
-        customPwd: String(r['Custom Password']||'').trim(),
-      })).filter(p=>p.id && p.name);
-    }
-
   } catch(e){
     console.error('Portal init error:', e);
   }
@@ -1475,12 +1417,6 @@ async function doLogin(){
   const errEl  = document.getElementById('loginErr');
   const btnEl  = document.getElementById('loginBtn');
   const loadEl = document.getElementById('loginLoading');
-
-  // Pensioner IDs start with 'P' — route to pensioner login
-  if(code.toUpperCase().startsWith('P')){
-    await doPensionerLogin(code, rawPwd);
-    return;
-  }
 
   if(!code || !rawPwd){
     errEl.textContent='Please enter Employee Code and Password.';
@@ -3399,7 +3335,7 @@ function showLogin(){
   document.getElementById('pgLogin').style.display='flex';
   document.getElementById('navbar').classList.remove('show');
 }
-function logout(){clearTimeout(idleTimer);clearInterval(countdownTimer);currentEmp=null;currentPen=null;_penDetails=null;document.getElementById('pgPensioner').style.display='none';clearSession();location.reload();}
+function logout(){clearTimeout(idleTimer);clearInterval(countdownTimer);currentEmp=null;clearSession();location.reload();}
 
 // ===== CHANGE PASSWORD =====
 function toggleChangePwd(){
@@ -3911,289 +3847,289 @@ async function refreshApproverQueue(){
   loadApproverQueue();
 }
 
+// =====================================================================
+// FORGOT PASSWORD — OTP FLOW
+// =====================================================================
+
+function toggleForgotPwd(){
+  const panel = document.getElementById('fpPanel');
+  const admin = document.getElementById('adminForm');
+  const open  = panel.style.display === 'block';
+  panel.style.display = open ? 'none' : 'block';
+  if(!open){
+    admin.style.display = 'none';
+    fpReset();
+  }
+}
+
+function closeForgotPwd(){
+  document.getElementById('fpPanel').style.display = 'none';
+  fpReset();
+}
+
+function fpReset(){
+  clearInterval(_fpTimerInterval);
+  _fpTimerInterval = null;
+  _fpCurrentCode   = '';
+  ['fpStep1','fpStep2','fpStep3'].forEach((id,i)=>{
+    document.getElementById(id).classList.toggle('active', i===0);
+  });
+  document.getElementById('fpCode').value    = '';
+  document.getElementById('fpOTP').value     = '';
+  document.getElementById('fpNewPwd').value  = '';
+  document.getElementById('fpConfirmPwd').value = '';
+  document.getElementById('fpMsg1').style.display = 'none';
+  document.getElementById('fpMsg2').style.display = 'none';
+}
+
+function fpShowMsg(elId, msg, ok){
+  const el = document.getElementById(elId);
+  el.textContent   = msg;
+  el.style.color   = ok ? 'var(--success,#166534)' : '#b71c1c';
+  el.style.display = 'block';
+}
+
+function fpStartTimer(seconds){
+  clearInterval(_fpTimerInterval);
+  _fpSecondsLeft = seconds;
+  const el = document.getElementById('fpTimerCount');
+  const wrap = document.getElementById('fpTimer');
+  const tick = () => {
+    const m = Math.floor(_fpSecondsLeft/60);
+    const s = _fpSecondsLeft % 60;
+    el.textContent = `${m}:${String(s).padStart(2,'0')}`;
+    if(_fpSecondsLeft <= 60) wrap.classList.add('urgent');
+    if(_fpSecondsLeft <= 0){
+      clearInterval(_fpTimerInterval);
+      el.textContent = 'Expired';
+      fpShowMsg('fpMsg2','OTP has expired. Please request a new one.',false);
+    }
+    _fpSecondsLeft--;
+  };
+  tick();
+  _fpTimerInterval = setInterval(tick, 1000);
+}
+
+async function requestOTP(){
+  const code  = document.getElementById('fpCode').value.trim();
+  const btnEl = document.getElementById('fpSendBtn');
+  const msgEl = document.getElementById('fpMsg1');
+
+  msgEl.style.display = 'none';
+  if(!code){ fpShowMsg('fpMsg1','Please enter your Employee Code.',false); return; }
+
+  btnEl.disabled    = true;
+  btnEl.textContent = 'Sending...';
+
+  try{
+    const qs  = new URLSearchParams({ action:'requestOTP', empCode: code });
+    const res = await fetch(`${PROXY_URL}?${qs.toString()}`);
+    const json = await res.json();
+
+    if(!json.success){
+      fpShowMsg('fpMsg1', json.error || 'Failed to send OTP.', false);
+      btnEl.disabled    = false;
+      btnEl.textContent = 'Send OTP to Registered Email';
+      return;
+    }
+
+    _fpCurrentCode = code;
+    // Show masked email hint
+    document.getElementById('fpEmailHint').textContent =
+      `OTP sent to: ${json.maskedEmail || 'your registered email'}`;
+
+    // Move to step 2
+    document.getElementById('fpStep1').classList.remove('active');
+    document.getElementById('fpStep2').classList.add('active');
+    fpStartTimer(600); // 10 minutes
+
+  } catch(err){
+    fpShowMsg('fpMsg1','Error: ' + err.message, false);
+    btnEl.disabled    = false;
+    btnEl.textContent = 'Send OTP to Registered Email';
+  }
+
+  btnEl.disabled    = false;
+  btnEl.textContent = 'Send OTP to Registered Email';
+}
+
+async function fpResend(){
+  document.getElementById('fpStep2').classList.remove('active');
+  document.getElementById('fpStep1').classList.add('active');
+  document.getElementById('fpCode').value = _fpCurrentCode;
+  clearInterval(_fpTimerInterval);
+  document.getElementById('fpMsg2').style.display='none';
+}
+
+async function verifyOTPAndReset(){
+  const otp     = document.getElementById('fpOTP').value.trim();
+  const newPwd  = document.getElementById('fpNewPwd').value.trim();
+  const confirm = document.getElementById('fpConfirmPwd').value.trim();
+  const btnEl   = document.getElementById('fpVerifyBtn');
+
+  document.getElementById('fpMsg2').style.display='none';
+
+  if(!otp || otp.length !== 6){ fpShowMsg('fpMsg2','Please enter the 6-digit OTP.',false); return; }
+  if(!newPwd || newPwd.length < 4){ fpShowMsg('fpMsg2','New password must be at least 4 characters.',false); return; }
+  if(newPwd !== confirm){ fpShowMsg('fpMsg2','Passwords do not match.',false); return; }
+  if(_fpSecondsLeft <= 0){ fpShowMsg('fpMsg2','OTP has expired. Please request a new one.',false); return; }
+
+  btnEl.disabled    = true;
+  btnEl.textContent = 'Verifying...';
+
+  try{
+    const newPwdHash = await sha256(newPwd);
+    const qs = new URLSearchParams({
+      action     : 'verifyOTP',
+      empCode    : _fpCurrentCode,
+      otp        : otp,
+      newPwdHash : newPwdHash,
+    });
+    const res  = await fetch(`${PROXY_URL}?${qs.toString()}`);
+    const json = await res.json();
+
+    if(!json.success){
+      fpShowMsg('fpMsg2', json.error || 'Invalid OTP. Please try again.', false);
+      btnEl.disabled    = false;
+      btnEl.textContent = 'Reset Password';
+      return;
+    }
+
+    // Success — update in-memory employee if they're the same person
+    if(currentEmp && norm(currentEmp.code) === norm(_fpCurrentCode)){
+      currentEmp.customPwd = newPwdHash;
+    }
+    // Update employees array too
+    const emp = (typeof employees !== 'undefined' ? employees : [])
+      .find(e => norm(e['Emp Code']) === norm(_fpCurrentCode));
+    if(emp) emp['Custom Password'] = newPwdHash;
+
+    clearInterval(_fpTimerInterval);
+    document.getElementById('fpStep2').classList.remove('active');
+    document.getElementById('fpStep3').classList.add('active');
+
+  } catch(err){
+    fpShowMsg('fpMsg2','Error: '+err.message, false);
+    btnEl.disabled    = false;
+    btnEl.textContent = 'Reset Password';
+  }
+}
+
+// =====================================================================
+// MY PROFILE TAB
+// =====================================================================
+
+function buildProfileTab(emp){
+  if(!emp) return;
+
+  // Read-only fields
+  document.getElementById('prCode').textContent  = emp.code  || emp['Emp Code']  || '--';
+  document.getElementById('prName').textContent  = emp.name  || emp['Name']       || '--';
+  document.getElementById('prDesg').textContent  = emp.desg  || emp['Designation']|| '--';
+  document.getElementById('prDept').textContent  = emp.dept  || emp['Department'] || '--';
+  document.getElementById('prCat').textContent   = emp.cat   || emp['Category']   || '--';
+  document.getElementById('prLevel').textContent = emp.level || emp['Level of Pay']|| '--';
+  document.getElementById('prPan').textContent   = emp.pan   || emp['PAN']        || '--';
+
+  // Format DOJ
+  const doj = emp.doj || emp['Date of Joining'];
+  if(doj){
+    const d = new Date(doj);
+    document.getElementById('prDoj').textContent = isNaN(d) ? doj :
+      d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+  }
+
+  // Editable fields — pre-fill from employee object if available
+  document.getElementById('prMobile').value   = emp.mobile   || emp['Mobile']                   || '';
+  document.getElementById('prEmail').value    = emp.email    || emp['Email']                    || '';
+  document.getElementById('prEmgName').value  = emp.emgName  || emp['Emergency Contact Name']   || '';
+  document.getElementById('prEmgPhone').value = emp.emgPhone || emp['Emergency Contact Number'] || '';
+  document.getElementById('prAddress').value  = emp.address  || emp['Address']                  || '';
+
+  // Last updated
+  const upd = emp.profileUpdated || emp['Profile Last Updated'];
+  const updEl = document.getElementById('profUpdated');
+  if(upd){
+    const d = new Date(upd);
+    updEl.textContent = 'Last updated: ' + (isNaN(d) ? upd :
+      d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}));
+  } else {
+    updEl.textContent = 'Profile not yet updated.';
+  }
+
+  document.getElementById('profMsg').style.display = 'none';
+}
+
+async function saveProfile(){
+  const emp   = currentEmp;
+  if(!emp){ return; }
+
+  const mobile   = document.getElementById('prMobile').value.trim();
+  const email    = document.getElementById('prEmail').value.trim();
+  const emgName  = document.getElementById('prEmgName').value.trim();
+  const emgPhone = document.getElementById('prEmgPhone').value.trim();
+  const address  = document.getElementById('prAddress').value.trim();
+  const msgEl    = document.getElementById('profMsg');
+  const btnEl    = document.getElementById('profSaveBtn');
+
+  const showMsg = (txt, ok) => {
+    msgEl.textContent   = txt;
+    msgEl.style.color   = ok ? 'var(--success,#166534)' : '#b71c1c';
+    msgEl.style.display = 'block';
+  };
+
+  // Basic validation
+  if(mobile && !/^\d{10}$/.test(mobile)){ showMsg('Mobile number must be 10 digits.',false); return; }
+  if(emgPhone && !/^\d{10}$/.test(emgPhone)){ showMsg('Emergency contact number must be 10 digits.',false); return; }
+  if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ showMsg('Please enter a valid email address.',false); return; }
+
+  btnEl.disabled    = true;
+  btnEl.textContent = '💾 Saving...';
+  msgEl.style.display = 'none';
+
+  try{
+    const empCode = norm(emp.code || emp['Emp Code'] || '');
+    const qs = new URLSearchParams({
+      action   : 'updateProfile',
+      empCode  : empCode,
+      mobile   : mobile,
+      email    : email,
+      emgName  : emgName,
+      emgPhone : emgPhone,
+      address  : address,
+    });
+    const txt  = await apiFetch(`${PROXY_URL}?${qs.toString()}`);
+    const json = txt ? JSON.parse(txt) : null;
+
+    if(!json || !json.success){
+      showMsg('❌ ' + (json?.error || 'Failed to save profile.'), false);
+      return;
+    }
+
+    // Update in-memory employee object
+    emp.mobile   = mobile;
+    emp.email    = email;
+    emp.emgName  = emgName;
+    emp.emgPhone = emgPhone;
+    emp.address  = address;
+    emp.profileUpdated = new Date().toISOString();
+
+    showMsg('✅ Profile saved successfully! A confirmation has been sent to your email.', true);
+    document.getElementById('profUpdated').textContent =
+      'Last updated: ' + new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+
+  } catch(err){
+    showMsg('❌ Error: ' + err.message, false);
+  }
+
+  btnEl.disabled    = false;
+  btnEl.textContent = '💾 Save Profile';
+}
+
 // ===== PAGE LOAD =====
 window.addEventListener('DOMContentLoaded',()=>{
   initPortal();
 });
-
-// =====================================================================
-// PENSIONER FEATURE — JS
-// =====================================================================
-
-async function doPensionerLogin(code, rawPwd){
-  const errEl  = document.getElementById('loginErr');
-  const btnEl  = document.getElementById('loginBtn');
-  const loadEl = document.getElementById('loginLoading');
-
-  if(!code || !rawPwd){
-    errEl.textContent='Please enter Pensioner ID and Password.';
-    errEl.style.display='block'; return;
-  }
-  const hashedPwd = await sha256(rawPwd);
-  errEl.style.display='none';
-  loadEl.style.display='block';
-  btnEl.disabled=true; btnEl.textContent='Signing in...';
-
-  try{
-    const qs  = new URLSearchParams({action:'login', empCode:code, pwdHash:hashedPwd});
-    const res = await fetch(`${PROXY_URL}?${qs.toString()}`);
-    const json= await res.json();
-
-    if(!json.success){
-      errEl.textContent = json.error||'Invalid Pensioner ID or Password.';
-      errEl.style.display='block';
-      loadEl.style.display='none';
-      btnEl.disabled=false; btnEl.textContent='Sign In';
-      return;
-    }
-
-    saveSession(json.sessionToken,'pensioner');
-
-    const pen = pensioners.find(p=>p.id===json.empCode);
-    if(!pen){
-      errEl.textContent='Login succeeded but pensioner profile not found. Please refresh.';
-      errEl.style.display='block';
-      loadEl.style.display='none';
-      btnEl.disabled=false; btnEl.textContent='Sign In';
-      return;
-    }
-    currentPen = pen;
-
-    // Last login badge
-    const llKey    = 'tgerc_lastlogin_'+code;
-    const lastLogin= localStorage.getItem(llKey);
-    if(lastLogin){
-      const badge=document.getElementById('lastLoginBadge');
-      badge.textContent='Last login: '+lastLogin;
-      badge.style.display='block';
-    }
-    localStorage.setItem(llKey, new Date().toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}));
-
-    document.getElementById('pgLogin').style.display     = 'none';
-    document.getElementById('pgPensioner').style.display = 'block';
-    document.getElementById('navbar').classList.add('show');
-    document.getElementById('navName').textContent = pen.name;
-    document.getElementById('navAv').textContent   = initials(pen.name);
-
-    loadEl.style.display='none';
-    btnEl.disabled=false; btnEl.textContent='Sign In';
-
-    await loadPensionerDashboard(pen);
-    resetIdle();
-
-  }catch(err){
-    errEl.textContent='❌ Login error: '+err.message;
-    errEl.style.display='block';
-    loadEl.style.display='none';
-    btnEl.disabled=false; btnEl.textContent='Sign In';
-  }
-}
-
-async function loadPensionerDashboard(pen){
-  document.getElementById('penLoadingBar').style.display='block';
-  document.getElementById('penError').style.display='none';
-  try{
-    const qs  = new URLSearchParams({action:'getPensionerDetails', empCode:pen.id});
-    const txt = await apiFetch(`${PROXY_URL}?${qs.toString()}`);
-    const json= txt?JSON.parse(txt):null;
-    if(!json||!json.success) throw new Error(json?.error||'Failed to load pension details.');
-    _penDetails = json.data;
-    renderPensionerDashboard(pen, _penDetails);
-  }catch(err){
-    const e=document.getElementById('penError');
-    e.textContent='⚠ '+err.message;
-    e.style.display='block';
-  }
-  document.getElementById('penLoadingBar').style.display='none';
-}
-
-  async function loadPensionerDashboard(pen){
-  document.getElementById('penLoadingBar').style.display='block';
-  document.getElementById('penError').style.display='none';
-  try{
-    // Existing details fetch
-    const qs  = new URLSearchParams({action:'getPensionerDetails', empCode:pen.id});
-    const txt = await apiFetch(`${PROXY_URL}?${qs.toString()}`);
-    const json= txt?JSON.parse(txt):null;
-    if(!json||!json.success) throw new Error(json?.error||'Failed to load pension details.');
-    _penDetails = json.data;
-
-    // NEW — fetch annuities
-    const annText = await apiFetch(`${PROXY_URL}?action=getSheet&sheetName=Pensioner%20Annuities`);
-    let penAnnuities = [];
-    if(annText){
-      try{
-        const data = JSON.parse(annText.substring(annText.indexOf('{'), annText.lastIndexOf('}')+1));
-        const cols = data.table.cols.map(c=>(c.label||'').trim());
-        const rows = (data.table.rows||[]).map(row=>{
-          const obj={};
-          (row.c||[]).forEach((cell,i)=>{ if(cols[i]) obj[cols[i]] = cell?cell.v:null; });
-          return obj;
-        });
-        penAnnuities = rows.filter(r=>String(r['Pensioner ID']||'').trim() === pen.id);
-      } catch(e){ console.warn('Annuity fetch parse error:', e); }
-    }
-
-    renderPensionerDashboard(pen, _penDetails, penAnnuities);
-  }catch(err){
-    const e=document.getElementById('penError');
-    e.textContent='⚠ '+err.message;
-    e.style.display='block';
-  }
-  document.getElementById('penLoadingBar').style.display='none';
-}
-function renderPensionerDashboard(pen, d, annuities){
-  const fmtCur = v=>{
-    const n=parseFloat(v);
-    if(!n&&n!==0) return '--';
-    return '₹ '+n.toLocaleString('en-IN',{maximumFractionDigits:0});
-  };
-  const fmtPenDate = v=>{
-    if(!v) return '--';
-    const dt=new Date(v);
-    if(isNaN(dt)) return String(v);
-    return dt.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
-  };
-
-  // Header
-  document.getElementById('penAv').textContent        = initials(pen.name);
-  document.getElementById('penName').textContent      = d['Name']||pen.name;
-  document.getElementById('penIdDisplay').textContent = 'Pensioner ID: '+pen.id;
-  document.getElementById('penPPO').textContent       = d['PPO Number']||'--';
-
-  // Info cards
-  document.getElementById('penDOB').textContent    = fmtPenDate(d['Date of Birth']||pen.dob);
-  document.getElementById('penDOR').textContent    = fmtPenDate(d['Date of Retirement']||pen.dor);
-  document.getElementById('penDesg').textContent   = d['Designation at Retirement']||pen.desg||'--';
-  document.getElementById('penDept').textContent   = d['Department']||pen.dept||'--';
-  document.getElementById('penLIC').textContent    = d['LIC Policy / Annuity Number']||'--';
-  document.getElementById('penGender').textContent = d['Gender']||pen.gender||'--';
-  document.getElementById('penSpouse').textContent = d['Spouse Name']||'--';
-
-  // Years since retirement
-  const dorRaw = d['Date of Retirement']||pen.dor;
-  if(dorRaw){
-    const dorDate=new Date(dorRaw);
-    if(!isNaN(dorDate)){
-      const now=new Date();
-      let yrs=now.getFullYear()-dorDate.getFullYear();
-      let mnths=now.getMonth()-dorDate.getMonth();
-      if(mnths<0){yrs--;mnths+=12;}
-      document.getElementById('penYSR').textContent=`${yrs}y ${mnths}m`;
-    }
-  }
-
-  // Pension amounts
-  const basicPension   = parseFloat(d['Basic Pension'])||0;
-  const afterCommute   = parseFloat(d['Pension after Commutation'])||0;
-  const commutedAmt    = parseFloat(d['Commuted Amount'])||0;
-  const familyPension  = parseFloat(d['Family Pension Amount'])||0;
-  const daPct          = parseFloat(d['DA Percentage Cal on Basic Pension'])||0;
-  const daAmt          = parseFloat(d['Dearness Allowance'])||0;
-  const pensionPayable = parseFloat(d['Pension Payable'])||0;
-  const commutePeriod  = d['Commutation Period']||'--';
-
-  document.getElementById('penBasic').textContent         = fmtCur(basicPension);
-  document.getElementById('penAfterCommute').textContent  = fmtCur(afterCommute);
-  document.getElementById('penRevised').textContent       = fmtCur(pensionPayable);
-  document.getElementById('penCommuted').textContent      = fmtCur(commutedAmt);
-  document.getElementById('penFamily').textContent        = familyPension?fmtCur(familyPension):'N/A';
-  document.getElementById('penCommutePeriod').textContent = commutePeriod;
-  document.getElementById('penDABadge').textContent       = 'DA: '+daPct+'%';
-  document.getElementById('penFamilyNominee').textContent = 'Nominee: '+(d['Family Pension Nominee']||'--');
-
-  // DA summary
-  document.getElementById('penDABasic').textContent        = fmtCur(basicPension);
-  document.getElementById('penDAAfterCommute').textContent = fmtCur(afterCommute);
-  document.getElementById('penDAPct').textContent          = daPct+' %';
-  document.getElementById('penDAAmount').textContent       = fmtCur(daAmt);
-  document.getElementById('penDARevised').textContent      = fmtCur(pensionPayable);
-
-  // Commutation bar
-  if(basicPension>0&&commutedAmt>0){
-    const pct=Math.min(100,Math.round((afterCommute/basicPension)*100));
-    document.getElementById('penCommuteBarWrap').style.display='block';
-    document.getElementById('penCommuteBarFill').style.width=pct+'%';
-    document.getElementById('penCommuteBarPct').textContent=pct+'%';
-    document.getElementById('penCommuteBarLabel').textContent=
-      'Pension after commutation is '+pct+'% of basic pension. Commuted: '+fmtCur(commutedAmt)+'. Period: '+commutePeriod+'.';
-  }
-  // Annuities
-  const annuitySection = document.getElementById('penAnnuitySection');
-  const annuityBody    = document.getElementById('penAnnuityBody');
-  const annuityTotal   = document.getElementById('penAnnuityTotal');
-
-  if(annuities && annuities.length){
-    annuitySection.style.display = '';
-    let total = 0;
-    annuityBody.innerHTML = annuities.map(a=>{
-      const amt = parseFloat(a['Monthly Amount'])||0;
-      total += amt;
-      return `<tr>
-        <td style="font-weight:600">${a['Annuity Number']||'--'}</td>
-        <td style="text-align:right">${fmtCur(amt)}</td>
-        <td style="font-size:12px;color:var(--muted)">${a['Notes']||''}</td>
-      </tr>`;
-    }).join('');
-    annuityTotal.textContent = fmtCur(total);
-  } else {
-    annuitySection.style.display = 'none';
-  }
-  // Show all sections
-  ['penHeader','penInfoGrid','penChPwdWrap','penAmountsSection','penDASection'].forEach(id=>{
-  document.getElementById(id).style.display='';
-});
-// penAnnuitySection is shown conditionally above only if data exists
-}
-
-function togglePenChangePwd(){
-  const body   =document.getElementById('penChPwdBody');
-  const chevron=document.getElementById('penChPwdChevron');
-  const open   =body.style.display==='none';
-  body.style.display  =open?'block':'none';
-  chevron.textContent =open?'▲ Hide':'▼ Show';
-}
-
-async function submitPensionerChangePassword(){
-  const current =document.getElementById('penCpCurrent').value.trim();
-  const newPwd  =document.getElementById('penCpNew').value.trim();
-  const confirm =document.getElementById('penCpConfirm').value.trim();
-  const msgEl   =document.getElementById('penCpMsg');
-
-  const show=(txt,ok)=>{
-    msgEl.textContent  =txt;
-    msgEl.style.color  =ok?'var(--success)':'var(--danger)';
-    msgEl.style.display='block';
-  };
-
-  if(!current||!newPwd||!confirm){show('All fields are required.',false);return;}
-  if(newPwd.length<4)            {show('New password must be at least 4 characters.',false);return;}
-  if(newPwd!==confirm)           {show('New passwords do not match.',false);return;}
-
-  // Client-side current password check (only possible when customPwd is set)
-  if(currentPen.customPwd){
-    const currentHash=await sha256(current);
-    if(currentHash!==currentPen.customPwd){show('Current password is incorrect.',false);return;}
-  }
-
-  const newHash=await sha256(newPwd);
-  try{
-    const qs  =new URLSearchParams({action:'changePensionerPassword',empCode:currentPen.id,newPwdHash:newHash});
-    const txt =await apiFetch(`${PROXY_URL}?${qs.toString()}`);
-    const json=txt?JSON.parse(txt):null;
-    if(json&&json.success){
-      currentPen.customPwd=newHash;
-      document.getElementById('penCpCurrent').value='';
-      document.getElementById('penCpNew').value='';
-      document.getElementById('penCpConfirm').value='';
-      show('✅ Password updated successfully!',true);
-    }else{
-      show('❌ '+(json?.error||'Failed to update password.'),false);
-    }
-  }catch(err){
-    show('❌ Error: '+err.message,false);
-  }
-}
 </script>
 </body>
 </html>
