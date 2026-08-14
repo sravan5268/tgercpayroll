@@ -3478,21 +3478,18 @@ async function submitChangePassword(){
   if(newVal !== confirmVal){ showMsg('❌ New password and confirm password do not match.', true); return; }
   if(newVal === currentVal){ showMsg('❌ New password must be different from current password.', true); return; }
 
-  // Verify current password matches what's stored
-  const hashedCurrent = await sha256(currentVal);
-  const isCurrentValid = currentEmp.customPwd
-    ? hashedCurrent === currentEmp.customPwd
-    : hashedCurrent === currentEmp.pwd;
-
-  if(!isCurrentValid){ showMsg('❌ Current password is incorrect.', true); return; }
-
+  // NOTE: current-password verification happens on the server (changePassword action),
+  // because getEmployees deliberately never sends password hashes to the client —
+  // there is nothing valid to compare against locally.
   showMsg('Updating...', false);
 
   try{
-    const hashedNew = await sha256(newVal);
+    const hashedCurrent = await sha256(currentVal);
+    const hashedNew     = await sha256(newVal);
     const qs = new URLSearchParams({
       action: 'changePassword',
       empCode: currentEmp.code,
+      currentPwdHash: hashedCurrent,
       newPwdHash: hashedNew
     });
     const resText = await apiFetch(`${PROXY_URL}?${qs.toString()}`);
