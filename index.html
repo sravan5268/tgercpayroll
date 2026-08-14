@@ -1401,6 +1401,12 @@ async function initPortal(){
         level:      String(r['Level of Pay']||'').trim(),
         doj:        r['Date of Joining'] || null,
         gender:     String(r['Gender']||'').trim(),
+        mobile:         String(r['Mobile']||'').trim(),
+        email:          String(r['Email']||'').trim(),
+        emgName:        String(r['Emergency Contact Name']||'').trim(),
+        emgPhone:       String(r['Emergency Contact Number']||'').trim(),
+        address:        String(r['Address']||'').trim(),
+        profileUpdated: r['Profile Last Updated'] || null,
       })));
       employees = hashed.filter(e=>e.code && e.name);
       // Also store forwarder/approver codes from employee master
