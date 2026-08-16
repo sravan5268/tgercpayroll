@@ -25,6 +25,7 @@ const ALLOWED_ACTIONS = [
   'requestOTP',
   'verifyOTP',
   'updateProfile',
+  'getDownloads',
 ];
 
 exports.handler = async function (event) {
