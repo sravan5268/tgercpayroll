@@ -4194,8 +4194,11 @@ async function removePhoto(){
     const res  = await fetch(PROXY_URL, {
       method : 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body   : JSON.stringify({ action:'removePhoto', empCode: norm(currentEmp.code) }),
-    });
+      body: JSON.stringify({
+  action: 'removePhoto',
+  empCode: norm(currentEmp.code),
+  sessionToken: _sessionToken
+}),
     const json = await res.json();
 
     if(!json.success){
@@ -4238,8 +4241,13 @@ async function adminUploadPhoto(empCode, empName){
         const res  = await fetch(PROXY_URL, {
           method : 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body   : JSON.stringify({ action:'uploadPhoto', empCode, imageData: base64, mimeType: mime }),
-        });
+          body: JSON.stringify({
+  action: 'uploadPhoto',
+  empCode: empCode,
+  imageData: base64,
+  mimeType: mime,
+  sessionToken: _sessionToken
+}),
         const json = await res.json();
         if(json.success){
           // Update employees array
