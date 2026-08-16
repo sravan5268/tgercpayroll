@@ -4198,7 +4198,8 @@ async function removePhoto(){
   action: 'removePhoto',
   empCode: norm(currentEmp.code),
   sessionToken: _sessionToken
-}),
+})
+    });
     const json = await res.json();
 
     if(!json.success){
@@ -4247,7 +4248,8 @@ async function adminUploadPhoto(empCode, empName){
   imageData: base64,
   mimeType: mime,
   sessionToken: _sessionToken
-}),
+})
+        });
         const json = await res.json();
         if(json.success){
           // Update employees array
