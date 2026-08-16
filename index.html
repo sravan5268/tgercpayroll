@@ -4142,10 +4142,11 @@ async function uploadPhoto(){
   try{
     // POST to proxy with base64 image
     const body = JSON.stringify({
-      action   : 'uploadPhoto',
-      empCode  : norm(currentEmp.code),
-      imageData: _pendingPhotoBase64,
-      mimeType : _pendingPhotoMime,
+      action      : 'uploadPhoto',
+      empCode     : norm(currentEmp.code),
+      imageData   : _pendingPhotoBase64,
+      mimeType    : _pendingPhotoMime,
+      sessionToken: _sessionToken,
     });
 
     const res  = await fetch(PROXY_URL, {
