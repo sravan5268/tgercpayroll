@@ -2396,9 +2396,17 @@ async function submitLeave(){
       await fetchLeaveData();
       buildLeaveTab(currentEmp);
       refreshNotifications();
+    } else {
+      msgEl.textContent = '❌ ' + (json.error || 'Failed to submit leave application.');
+      msgEl.className = 'leave-form-msg err';
+      msgEl.style.display = 'block';
+    }
+  } catch(submitErr) {
+    msgEl.textContent = '❌ Error: ' + submitErr.message;
+    msgEl.className = 'leave-form-msg err';
+    msgEl.style.display = 'block';
   }
 }
-
 // ===== CALENDAR =====
 let _calEmp=null, _calMobileMonth=null;
 function calNavPrev(){
