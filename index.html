@@ -43,7 +43,23 @@ nav.show{display:flex}
 .wrap{max-width:1100px;margin:0 auto;padding:1.25rem 1rem}
 .sec-title{font-size:14px;font-weight:600;color:var(--blue);margin-bottom:.75rem;padding-bottom:5px;border-bottom:2px solid var(--blue-light)}
 .prof-hdr{background:#fff;border-radius:8px;border:1px solid var(--border);padding:1.1rem 1.25rem;margin-bottom:1rem;display:flex;align-items:center;gap:1rem}
-.emp-av{width:54px;height:54px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:700;flex-shrink:0}
+.emp-av{width:54px;height:54px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:700;flex-shrink:0;overflow:hidden;position:relative}
+.emp-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.nav-avatar{overflow:hidden}
+.nav-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+/* Photo upload in profile tab */
+.photo-upload-wrap{display:flex;align-items:center;gap:1.25rem;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.photo-preview-circle{width:80px;height:80px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;font-weight:700;flex-shrink:0;overflow:hidden;border:3px solid var(--border)}
+.photo-preview-circle img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.photo-upload-actions{display:flex;flex-direction:column;gap:.5rem}
+.photo-upload-btn{background:var(--blue);color:#fff;border:none;padding:7px 16px;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem}
+.photo-remove-btn{background:#fff;color:#b71c1c;border:1px solid #f5c6cb;padding:6px 16px;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;display:none}
+.photo-upload-hint{font-size:11px;color:var(--muted);margin-top:2px}
+#photoFileInput{display:none}
+#photoUploadMsg{font-size:12px;font-weight:600;margin-top:4px;display:none}
+/* Admin emp list photo icon */
+.admin-photo-btn{background:none;border:none;cursor:pointer;font-size:14px;padding:2px 5px;opacity:.7;transition:opacity .2s}
+.admin-photo-btn:hover{opacity:1}
 .emp-name{font-size:17px;font-weight:700}
 .emp-desg{font-size:12px;color:var(--muted);margin-top:2px}
 .cat-badge{display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:600;margin-top:4px}
@@ -925,6 +941,18 @@ tr:hover td{background:#f5f9ff}
         <div class="prof-section">
           <div class="prof-section-hdr">📋 Your Contact Details <span style="font-size:11px;font-weight:400;color:var(--muted)">(you can update these)</span></div>
           <div class="prof-section-body">
+            <!-- Photo Upload -->
+            <div class="photo-upload-wrap">
+              <div class="photo-preview-circle" id="profilePhotoCircle">--</div>
+              <div class="photo-upload-actions">
+                <div style="font-size:13px;font-weight:600;color:#1a2a3a">Profile Photo</div>
+                <input type="file" id="photoFileInput" accept="image/*" onchange="onPhotoSelected(event)"/>
+                <button class="photo-upload-btn" onclick="document.getElementById('photoFileInput').click()">📷 Choose Photo</button>
+                <button class="photo-remove-btn" id="photoRemoveBtn" onclick="removePhoto()">✕ Remove Photo</button>
+                <div class="photo-upload-hint">JPG, PNG or GIF. Recommended: square photo.</div>
+                <div id="photoUploadMsg"></div>
+              </div>
+            </div>
             <div class="prof-field-grid">
               <div class="prof-field">
                 <label>Mobile Number</label>
@@ -1442,6 +1470,7 @@ async function initPortal(){
         level:      String(r['Level of Pay']||'').trim(),
         doj:        r['Date of Joining'] || null,
         gender:     String(r['Gender']||'').trim(),
+        photoId:    String(r['Photo']||'').trim(),
         mobile:         String(r['Mobile']||'').trim(),
         email:          String(r['Email']||'').trim(),
         emgName:        String(r['Emergency Contact Name']||'').trim(),
@@ -1538,9 +1567,9 @@ async function doLogin(){
   }
   localStorage.setItem(llKey,new Date().toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}));
 
-  document.getElementById('navAv').textContent=initials(emp.name);
+  setAvatarEl(document.getElementById('navAv'), emp);
   document.getElementById('navName').textContent=emp.name;
-  document.getElementById('dAv').textContent=initials(emp.name);
+  setAvatarEl(document.getElementById('dAv'), emp);
   document.getElementById('dName').textContent=emp.name;
   document.getElementById('dDesg').textContent=emp.desg;
   document.getElementById('dCode').textContent=emp.code;
@@ -2864,14 +2893,23 @@ function buildAdminEmpList(){
 
     html+=`<p class="sec-title">${cat} <span style="font-size:12px;color:var(--muted);font-weight:400">(${emps.length})</span></p>
     <div class="ps-table-wrap" style="margin-bottom:1rem"><table>
-    <thead><tr><th>Code</th><th>Name</th><th>Department</th><th>Designation</th><th>PAN</th><th>Payslips</th></tr></thead>
+    <thead><tr><th>Photo</th><th>Code</th><th>Name</th><th>Department</th><th>Designation</th><th>PAN</th><th>Payslips</th></tr></thead>
     <tbody>${emps.map(e=>{
       const pc=months.length?psCount(e):null;
       if(pc!==null) totalWithPs += pc>0?1:0;
       const psCell = pc===null?'–':(pc===0
         ?`<span class="status-zero">⚠ 0 / ${months.length}</span>`
         :`${pc} <span style="color:var(--muted);font-size:11px">/ ${months.length}</span>`);
+      const photoCell = e.photoId
+        ? `<div style="display:flex;align-items:center;gap:4px">
+             <div class="emp-av" style="width:32px;height:32px;font-size:11px">
+               <img src="${driveThumbUrl(e.photoId,64)}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.parentElement.textContent='${initials(e.name)}'"/>
+             </div>
+             <button class="admin-photo-btn" title="Change photo" onclick="adminUploadPhoto('${e.code}','${e.name}')">📷</button>
+           </div>`
+        : `<button class="admin-photo-btn" title="Upload photo" onclick="adminUploadPhoto('${e.code}','${e.name}')">📷 Add</button>`;
       return `<tr>
+        <td>${photoCell}</td>
         <td>${e.code}</td><td>${e.name}</td><td>${e.dept||'–'}</td><td>${e.desg}</td>
         <td>${e.pan||'<span style="color:var(--warning);font-size:11px">Missing</span>'}</td>
         <td>${psCell}</td>
@@ -4018,6 +4056,208 @@ async function refreshApproverQueue(){
 }
 
 // =====================================================================
+// PHOTO FEATURE
+// =====================================================================
+
+// Drive thumbnail URL from file ID
+function driveThumbUrl(fileId, size=200){
+  return `https://drive.google.com/thumbnail?id=${fileId}&sz=w${size}`;
+}
+
+// Set an avatar element — shows photo if photoId set, else initials
+function setAvatarEl(el, emp){
+  if(!el) return;
+  if(emp && emp.photoId){
+    el.innerHTML = `<img src="${driveThumbUrl(emp.photoId)}" alt="${emp.name}" onerror="this.parentElement.innerHTML='${initials(emp.name||'')}'"/>`;
+  } else {
+    el.innerHTML = '';
+    el.textContent = initials(emp ? emp.name : '--');
+  }
+}
+
+// Called when profile tab opens — render photo preview
+function renderProfilePhoto(emp){
+  const circle = document.getElementById('profilePhotoCircle');
+  const removeBtn = document.getElementById('photoRemoveBtn');
+  if(!circle) return;
+  if(emp && emp.photoId){
+    circle.innerHTML = `<img src="${driveThumbUrl(emp.photoId,160)}" alt="Profile photo" onerror="this.parentElement.innerHTML='${initials(emp.name||'')}'"/>`;
+    removeBtn.style.display = 'inline-flex';
+  } else {
+    circle.innerHTML = '';
+    circle.textContent = initials(emp ? emp.name : '--');
+    removeBtn.style.display = 'none';
+  }
+}
+
+let _pendingPhotoBase64 = null;
+let _pendingPhotoMime   = null;
+
+function onPhotoSelected(event){
+  const file = event.target.files[0];
+  if(!file) return;
+
+  const msgEl = document.getElementById('photoUploadMsg');
+  msgEl.style.display = 'none';
+
+  // Max 3MB check
+  if(file.size > 3 * 1024 * 1024){
+    msgEl.textContent   = '❌ Image too large. Maximum size is 3MB.';
+    msgEl.style.color   = '#b71c1c';
+    msgEl.style.display = 'block';
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const base64Full = e.target.result; // data:image/jpeg;base64,....
+    const parts      = base64Full.split(',');
+    _pendingPhotoBase64 = parts[1];
+    _pendingPhotoMime   = file.type || 'image/jpeg';
+
+    // Show preview immediately
+    const circle = document.getElementById('profilePhotoCircle');
+    circle.innerHTML = `<img src="${base64Full}" alt="Preview"/>`;
+    document.getElementById('photoRemoveBtn').style.display = 'inline-flex';
+
+    // Auto-upload
+    uploadPhoto();
+  };
+  reader.readAsDataURL(file);
+  // Reset input so same file can be re-selected
+  event.target.value = '';
+}
+
+async function uploadPhoto(){
+  if(!_pendingPhotoBase64 || !currentEmp) return;
+
+  const msgEl  = document.getElementById('photoUploadMsg');
+  const btnEl  = document.querySelector('.photo-upload-btn');
+
+  msgEl.textContent   = '⏳ Uploading...';
+  msgEl.style.color   = 'var(--muted)';
+  msgEl.style.display = 'block';
+  btnEl.disabled      = true;
+
+  try{
+    // POST to proxy with base64 image
+    const body = JSON.stringify({
+      action   : 'uploadPhoto',
+      empCode  : norm(currentEmp.code),
+      imageData: _pendingPhotoBase64,
+      mimeType : _pendingPhotoMime,
+    });
+
+    const res  = await fetch(PROXY_URL, {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body,
+    });
+    const json = await res.json();
+
+    if(!json.success){
+      msgEl.textContent = '❌ ' + (json.error || 'Upload failed.');
+      msgEl.style.color = '#b71c1c';
+      btnEl.disabled    = false;
+      return;
+    }
+
+    // Update in-memory employee object
+    currentEmp.photoId = json.fileId;
+
+    // Update all avatar elements on page
+    setAvatarEl(document.getElementById('navAv'),  currentEmp);
+    setAvatarEl(document.getElementById('dAv'),    currentEmp);
+    renderProfilePhoto(currentEmp);
+
+    msgEl.textContent = '✅ Photo updated successfully!';
+    msgEl.style.color = 'var(--success,#166534)';
+    _pendingPhotoBase64 = null;
+    _pendingPhotoMime   = null;
+
+  } catch(err){
+    msgEl.textContent = '❌ Error: ' + err.message;
+    msgEl.style.color = '#b71c1c';
+  }
+
+  btnEl.disabled = false;
+}
+
+async function removePhoto(){
+  if(!currentEmp) return;
+  const msgEl = document.getElementById('photoUploadMsg');
+  msgEl.textContent   = '⏳ Removing...';
+  msgEl.style.color   = 'var(--muted)';
+  msgEl.style.display = 'block';
+
+  try{
+    const res  = await fetch(PROXY_URL, {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body   : JSON.stringify({ action:'removePhoto', empCode: norm(currentEmp.code) }),
+    });
+    const json = await res.json();
+
+    if(!json.success){
+      msgEl.textContent = '❌ ' + (json.error || 'Failed to remove photo.');
+      msgEl.style.color = '#b71c1c';
+      return;
+    }
+
+    currentEmp.photoId = '';
+    setAvatarEl(document.getElementById('navAv'), currentEmp);
+    setAvatarEl(document.getElementById('dAv'),   currentEmp);
+    renderProfilePhoto(currentEmp);
+    document.getElementById('photoRemoveBtn').style.display = 'none';
+    msgEl.textContent = '✅ Photo removed.';
+    msgEl.style.color = 'var(--success,#166534)';
+
+  } catch(err){
+    msgEl.textContent = '❌ Error: ' + err.message;
+    msgEl.style.color = '#b71c1c';
+  }
+}
+
+// Admin upload photo for any employee
+async function adminUploadPhoto(empCode, empName){
+  const input = document.createElement('input');
+  input.type  = 'file';
+  input.accept= 'image/*';
+  input.onchange = async function(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    if(file.size > 3*1024*1024){ alert('Image too large. Max 3MB.'); return; }
+
+    const reader = new FileReader();
+    reader.onload = async function(ev){
+      const base64Full = ev.target.result;
+      const base64     = base64Full.split(',')[1];
+      const mime       = file.type || 'image/jpeg';
+
+      try{
+        const res  = await fetch(PROXY_URL, {
+          method : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body   : JSON.stringify({ action:'uploadPhoto', empCode, imageData: base64, mimeType: mime }),
+        });
+        const json = await res.json();
+        if(json.success){
+          // Update employees array
+          const emp = employees.find(e=>norm(e.code)===norm(empCode));
+          if(emp) emp.photoId = json.fileId;
+          alert(`✅ Photo updated for ${empName}`);
+          buildAdminEmpList();
+        } else {
+          alert('❌ ' + (json.error||'Upload failed.'));
+        }
+      } catch(err){ alert('Error: '+err.message); }
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+// =====================================================================
 // FORGOT PASSWORD — OTP FLOW
 // =====================================================================
 
@@ -4228,6 +4468,9 @@ function buildProfileTab(emp){
   }
 
   document.getElementById('profMsg').style.display = 'none';
+
+  // Photo
+  renderProfilePhoto(emp);
 }
 
 async function saveProfile(){
