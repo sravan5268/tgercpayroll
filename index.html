@@ -452,10 +452,38 @@ tr:hover td{background:#f5f9ff}
 .prof-save-btn:disabled{background:var(--muted);cursor:not-allowed}
 #profMsg{font-size:12px;font-weight:600;display:none}
 .prof-updated{font-size:11px;color:var(--muted);margin-top:.5rem;font-style:italic}
-@media(max-width:700px){
-  #profile-tab .prof-field-grid{grid-template-columns:1fr}
-  #profile-tab .prof-readonly-grid{grid-template-columns:repeat(2,1fr)}
-}
+/* ── NOTIFICATIONS ── */
+.notif-bell-wrap{position:relative;display:inline-flex;align-items:center}
+.notif-bell-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .15s;position:relative;padding:0}
+.notif-bell-btn:hover{background:rgba(255,255,255,.28)}
+.notif-badge{position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px;border:2px solid #1a3c5e;display:none}
+.notif-panel{position:absolute;top:calc(100% + 10px);right:0;width:340px;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 32px rgba(26,60,94,.18);z-index:9999;display:none;overflow:hidden}
+.notif-panel.open{display:block}
+.notif-panel-hdr{background:var(--blue);color:#fff;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between}
+.notif-panel-title{font-size:13px;font-weight:700}
+.notif-mark-all{font-size:11px;color:rgba(255,255,255,.8);cursor:pointer;text-decoration:underline;background:none;border:none;color:rgba(255,255,255,.85);cursor:pointer}
+.notif-mark-all:hover{color:#fff}
+.notif-list{max-height:360px;overflow-y:auto}
+.notif-item{display:flex;align-items:flex-start;gap:.65rem;padding:.75rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s;position:relative}
+.notif-item:last-child{border-bottom:none}
+.notif-item:hover{background:#f8fafc}
+.notif-item.unread{background:#f0f6ff}
+.notif-item.unread::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--blue);border-radius:2px 0 0 2px}
+.notif-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.notif-icon.green{background:#dcfce7}
+.notif-icon.red{background:#fee2e2}
+.notif-icon.amber{background:#fef3c7}
+.notif-icon.blue{background:#dbeafe}
+.notif-icon.purple{background:#ede9fe}
+.notif-icon.grey{background:#f3f4f6}
+.notif-body{flex:1;min-width:0}
+.notif-msg{font-size:12px;color:#1a2a3a;line-height:1.4;margin-bottom:3px}
+.notif-time{font-size:10px;color:var(--muted)}
+.notif-dismiss{position:absolute;top:6px;right:8px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;padding:2px;line-height:1;opacity:0}
+.notif-item:hover .notif-dismiss{opacity:1}
+.notif-empty{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:13px}
+.notif-footer{padding:.6rem 1rem;text-align:center;font-size:11px;color:var(--muted);border-top:1px solid var(--border);background:#fafbfc}
+@media(max-width:400px){.notif-panel{width:calc(100vw - 20px);right:-10px}}
 </style>
 </head>
 <body>
@@ -483,6 +511,19 @@ tr:hover td{background:#f5f9ff}
     <span id="navName" style="font-size:13px;opacity:.9"></span>
     <div id="navForwarderBtn" style="display:none"><button class="nav-btn" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);font-size:12px" onclick="showForwarderDash()">📋 Forwarder</button></div>
     <div id="navApproverBtn"  style="display:none"><button class="nav-btn" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);font-size:12px" onclick="showApproverDash()">✅ Approver</button></div>
+    <!-- Notification Bell -->
+    <div class="notif-bell-wrap" id="notifWrap" style="display:none">
+      <button class="notif-bell-btn" id="notifBellBtn" onclick="toggleNotifPanel(event)" title="Notifications">🔔</button>
+      <div class="notif-badge" id="notifBadge">0</div>
+      <div class="notif-panel" id="notifPanel">
+        <div class="notif-panel-hdr">
+          <span class="notif-panel-title">🔔 Notifications</span>
+          <button class="notif-mark-all" onclick="markAllRead()">Mark all as read</button>
+        </div>
+        <div class="notif-list" id="notifList"></div>
+        <div class="notif-footer" id="notifFooter"></div>
+      </div>
+    </div>
     <div class="nav-avatar" id="navAv">--</div>
     <button class="nav-btn" onclick="logout()">Sign Out</button>
   </div>
@@ -1558,6 +1599,9 @@ async function doLogin(){
     apiFetch(`${PROXY_URL}?${qs.toString()}`).catch(()=>{});
   }catch(e){}
 
+  // Initialise notifications
+  initNotifications(emp);
+
   loadEl.style.display='none';
   btnEl.disabled=false; btnEl.textContent='Sign In';
   resetIdle();
@@ -2351,12 +2395,7 @@ async function submitLeave(){
       msgEl.className='leave-form-msg ok';
       await fetchLeaveData();
       buildLeaveTab(currentEmp);
-    } else {
-      throw new Error(json.error || 'Unknown error');
-    }
-  } catch(e){
-    msgEl.textContent='❌ Submission failed: '+e.message+'. Please contact HR.';
-    msgEl.className='leave-form-msg err';
+      refreshNotifications();
   }
 }
 
@@ -3449,7 +3488,17 @@ function showLogin(){
   document.getElementById('pgLogin').style.display='flex';
   document.getElementById('navbar').classList.remove('show');
 }
-function logout(){clearTimeout(idleTimer);clearInterval(countdownTimer);currentEmp=null;clearSession();location.reload();}
+function logout(){
+  clearTimeout(idleTimer);
+  clearInterval(countdownTimer);
+  currentEmp=null;
+  _notifications=[];
+  _notifPanelOpen=false;
+  document.getElementById('notifWrap').style.display='none';
+  document.getElementById('notifPanel').classList.remove('open');
+  clearSession();
+  location.reload();
+}
 
 // ===== CHANGE PASSWORD =====
 function toggleChangePwd(){
@@ -3774,6 +3823,7 @@ async function confirmFwAction(){
       if(card) card.remove();
       await fetchLeaveData();
       loadForwarderQueue();
+      refreshNotifications();
       alert(action==='forward'
         ? (actingAsF2 ? '✅ Application forwarded to Approver!' : '✅ Application forwarded to Level 2 / Approver!')
         : '↩ Application returned to employee.');
@@ -3941,6 +3991,7 @@ async function confirmApAction(){
     if(json.success){
       await fetchLeaveData();
       loadApproverQueue();
+      refreshNotifications();
       alert(action==='approve'
         ? `✅ Leave approved for ${empName}! Sheet updated.`
         : `❌ Leave rejected for ${empName}.`);
@@ -4235,6 +4286,344 @@ async function saveProfile(){
 
   btnEl.disabled    = false;
   btnEl.textContent = '💾 Save Profile';
+}
+
+// ===== PAGE LOAD =====
+// =====================================================================
+// NOTIFICATIONS SYSTEM
+// =====================================================================
+
+// ── Globals ──
+let _notifications   = [];   // all generated notifications
+let _dismissedIds    = new Set(); // IDs dismissed by user (from localStorage)
+let _notifPanelOpen  = false;
+
+const NOTIF_STORAGE_KEY = 'tgerc_dismissed_notifs';
+
+// ── Load dismissed IDs from localStorage ──
+function loadDismissedNotifs(){
+  try{
+    const raw = localStorage.getItem(NOTIF_STORAGE_KEY);
+    if(raw) _dismissedIds = new Set(JSON.parse(raw));
+  } catch(e){ _dismissedIds = new Set(); }
+}
+
+function saveDismissedNotifs(){
+  try{
+    // Keep only IDs that still exist (prune stale ones)
+    const currentIds = new Set(_notifications.map(n=>n.id));
+    const pruned = [..._dismissedIds].filter(id=>currentIds.has(id));
+    _dismissedIds = new Set(pruned);
+    localStorage.setItem(NOTIF_STORAGE_KEY, JSON.stringify([..._dismissedIds]));
+  } catch(e){}
+}
+
+// ── Generate unique ID for a notification ──
+function notifId(str){
+  let hash = 0;
+  for(let i=0;i<str.length;i++){
+    hash = ((hash<<5)-hash)+str.charCodeAt(i);
+    hash |= 0;
+  }
+  return 'n_' + Math.abs(hash).toString(36);
+}
+
+// ── Build all notifications from existing data ──
+function generateNotifications(emp){
+  const notifs = [];
+  const myCode = norm(emp.code);
+  const now    = new Date();
+
+  // Helper: days ago string
+  const timeAgo = dateVal => {
+    if(!dateVal) return '';
+    const d = parseGvizDate(dateVal) || new Date(dateVal);
+    if(!d || isNaN(d)) return '';
+    const diff = Math.floor((now - d)/(1000*60*60*24));
+    if(diff === 0) return 'Today';
+    if(diff === 1) return 'Yesterday';
+    if(diff < 7)  return `${diff} days ago`;
+    return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'});
+  };
+
+  // ── 1. MY LEAVE STATUS CHANGES ──
+  const myLeaves = leaveHistory.filter(h => norm(h['Emp Code']) === myCode);
+  myLeaves.forEach(h => {
+    const status   = String(h['Status']||'').trim();
+    const fromDate = parseGvizDate(h['From Date']);
+    const dateStr  = fromDate
+      ? fromDate.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})
+      : '–';
+    const ltype    = String(h['Leave Type']||'').trim();
+    const decOn    = h['Decision On'] || h['Forwarded On'] || h['Applied On'];
+
+    if(status === 'Approved'){
+      const by = String(h['Approved By']||h['Decision By']||'').trim();
+      notifs.push({
+        id     : notifId('approved'+myCode+String(h['Row Index']||dateStr)),
+        type   : 'approved',
+        icon   : '✅', iconCls:'green',
+        msg    : `Your ${ltype} (${dateStr}) has been <strong>Approved</strong>${by?' by '+by:''}`,
+        time   : timeAgo(decOn),
+        tab    : 'leave',
+        priority: 1,
+      });
+    } else if(status === 'Rejected'){
+      const remarks = String(h['Approver Remarks']||'').trim();
+      notifs.push({
+        id      : notifId('rejected'+myCode+String(h['Row Index']||dateStr)),
+        type    : 'rejected',
+        icon    : '❌', iconCls:'red',
+        msg     : `Your ${ltype} (${dateStr}) has been <strong>Rejected</strong>${remarks?' — '+remarks:''}`,
+        time    : timeAgo(decOn),
+        tab     : 'leave',
+        priority: 1,
+      });
+    } else if(status === 'Returned'){
+      const remarks = String(h['Forwarder Remarks']||'').trim();
+      notifs.push({
+        id      : notifId('returned'+myCode+String(h['Row Index']||dateStr)),
+        type    : 'returned',
+        icon    : '↩️', iconCls:'amber',
+        msg     : `Your ${ltype} (${dateStr}) was <strong>Returned</strong> to you${remarks?' — '+remarks:''}`,
+        time    : timeAgo(h['Forwarded On']||h['Applied On']),
+        tab     : 'leave',
+        priority: 1,
+      });
+    } else if(status === 'Forwarded' || status === 'Forwarded2'){
+      const by = String(h['Forwarded By']||'').trim();
+      notifs.push({
+        id      : notifId('forwarded'+myCode+String(h['Row Index']||dateStr)),
+        type    : 'forwarded',
+        icon    : '📤', iconCls:'blue',
+        msg     : `Your ${ltype} (${dateStr}) has been <strong>Forwarded</strong>${by?' by '+by:''} and is awaiting approval`,
+        time    : timeAgo(h['Forwarded On']||h['Applied On']),
+        tab     : 'leave',
+        priority: 2,
+      });
+    }
+  });
+
+  // ── 2. PENDING ACTIONS — FORWARDER ──
+  // L1 forwarder: applications where status=Submitted and forwarderCode=mine
+  const l1Pending = leaveHistory.filter(h =>
+    norm(h['Forwarder Code']) === myCode &&
+    String(h['Status']||'').trim() === 'Submitted'
+  );
+  // L2 forwarder: applications where status=Forwarded and forwarder2Code=mine
+  const myForwarder2Code = myCode;
+  const l2Pending = leaveHistory.filter(h => {
+    const emp2 = employees.find(e => norm(e.code) === norm(h['Emp Code']));
+    return emp2 &&
+      norm(emp2.forwarder2Code||emp2['Forwarder Code 2']||'') === myForwarder2Code &&
+      String(h['Status']||'').trim() === 'Forwarded';
+  });
+  const totalFwdPending = l1Pending.length + l2Pending.length;
+  if(totalFwdPending > 0){
+    notifs.push({
+      id      : notifId('fwdpending'+myCode+totalFwdPending),
+      type    : 'action',
+      icon    : '📋', iconCls:'amber',
+      msg     : `You have <strong>${totalFwdPending} leave application${totalFwdPending>1?'s':''}</strong> pending your review as Forwarder`,
+      time    : '',
+      tab     : 'forwarder',
+      priority: 0,
+    });
+  }
+
+  // ── 3. PENDING ACTIONS — APPROVER ──
+  const approverPending = leaveHistory.filter(h => {
+    const empRow = employees.find(e => norm(e.code) === norm(h['Emp Code']));
+    if(!empRow) return false;
+    const hasL2    = !!(norm(empRow.forwarder2Code||empRow['Forwarder Code 2']||''));
+    const status   = String(h['Status']||'').trim();
+    const isMyApp  = norm(h['Approver Code']||empRow.approverCode||empRow['Approver Code']||'') === myCode
+                  || norm(empRow.approverCode||empRow['Approver Code']||'') === myCode;
+    if(!isMyApp) return false;
+    return (hasL2 && status==='Forwarded2') ||
+           (!hasL2 && (status==='Forwarded'||status==='Submitted'));
+  });
+  if(approverPending.length > 0){
+    notifs.push({
+      id      : notifId('apprpending'+myCode+approverPending.length),
+      type    : 'action',
+      icon    : '✅', iconCls:'blue',
+      msg     : `You have <strong>${approverPending.length} leave application${approverPending.length>1?'s':''}</strong> awaiting your approval`,
+      time    : '',
+      tab     : 'approver',
+      priority: 0,
+    });
+  }
+
+  // ── 4. NEW NOTICES (posted in last 30 days) ──
+  notices.forEach(n => {
+    const title   = String(n['Title']||'').trim();
+    const dateVal = n['Date'] || null;
+    const d       = dateVal ? (parseGvizDate(dateVal)||new Date(dateVal)) : null;
+    const daysOld = d ? Math.floor((now-d)/(1000*60*60*24)) : 999;
+    if(daysOld <= 30 && title){
+      notifs.push({
+        id      : notifId('notice'+title+String(dateVal||'')),
+        type    : 'notice',
+        icon    : '📢', iconCls:'purple',
+        msg     : `New notice: <strong>${title}</strong>`,
+        time    : timeAgo(dateVal),
+        tab     : 'home',
+        priority: 3,
+      });
+    }
+  });
+
+  // ── 5. NEW DOWNLOADS (added in last 30 days) ──
+  if(typeof downloads !== 'undefined'){
+    downloads.forEach(doc => {
+      const title     = String(doc['Title']||'').trim();
+      const uploadedOn= doc['Uploaded On']||null;
+      if(!title || !uploadedOn) return;
+      const d       = new Date(uploadedOn);
+      const daysOld = isNaN(d) ? 999 : Math.floor((now-d)/(1000*60*60*24));
+      if(daysOld <= 30){
+        notifs.push({
+          id      : notifId('download'+title+String(uploadedOn)),
+          type    : 'download',
+          icon    : '📥', iconCls:'grey',
+          msg     : `New document available: <strong>${title}</strong>`,
+          time    : timeAgo(uploadedOn),
+          tab     : 'downloads',
+          priority: 4,
+        });
+      }
+    });
+  }
+
+  // Sort by priority (0=most urgent) then keep original order
+  notifs.sort((a,b)=>a.priority-b.priority);
+  return notifs;
+}
+
+// ── Build & display notifications after data is loaded ──
+function initNotifications(emp){
+  loadDismissedNotifs();
+  _notifications = generateNotifications(emp);
+  saveDismissedNotifs(); // prune stale dismissed IDs
+  updateNotifBadge();
+  document.getElementById('notifWrap').style.display = 'inline-flex';
+}
+
+// ── Count unread ──
+function unreadCount(){
+  return _notifications.filter(n => !_dismissedIds.has(n.id)).length;
+}
+
+// ── Update badge ──
+function updateNotifBadge(){
+  const count  = unreadCount();
+  const badge  = document.getElementById('notifBadge');
+  const btn    = document.getElementById('notifBellBtn');
+  badge.textContent   = count > 9 ? '9+' : String(count);
+  badge.style.display = count > 0 ? 'flex' : 'none';
+  btn.textContent     = count > 0 ? '🔔' : '🔕';
+}
+
+// ── Toggle panel ──
+function toggleNotifPanel(e){
+  e.stopPropagation();
+  _notifPanelOpen = !_notifPanelOpen;
+  const panel = document.getElementById('notifPanel');
+  if(_notifPanelOpen){
+    renderNotifPanel();
+    panel.classList.add('open');
+  } else {
+    panel.classList.remove('open');
+  }
+}
+
+// Close panel when clicking outside
+document.addEventListener('click', function(e){
+  if(_notifPanelOpen && !document.getElementById('notifWrap').contains(e.target)){
+    _notifPanelOpen = false;
+    document.getElementById('notifPanel').classList.remove('open');
+  }
+});
+
+// ── Render notifications list ──
+function renderNotifPanel(){
+  const list   = document.getElementById('notifList');
+  const footer = document.getElementById('notifFooter');
+  if(!list) return;
+
+  if(!_notifications.length){
+    list.innerHTML   = '<div class="notif-empty">🎉 You\'re all caught up!</div>';
+    footer.innerHTML = '';
+    return;
+  }
+
+  list.innerHTML = _notifications.map(n => {
+    const isRead = _dismissedIds.has(n.id);
+    return `<div class="notif-item${isRead?'':' unread'}" onclick="notifClick('${n.id}','${n.tab}')">
+      <div class="notif-icon ${n.iconCls}">${n.icon}</div>
+      <div class="notif-body">
+        <div class="notif-msg">${n.msg}</div>
+        ${n.time ? `<div class="notif-time">${n.time}</div>` : ''}
+      </div>
+      <button class="notif-dismiss" title="Dismiss" onclick="dismissNotif(event,'${n.id}')">✕</button>
+    </div>`;
+  }).join('');
+
+  const unread = unreadCount();
+  footer.innerHTML = unread === 0
+    ? 'All caught up ✓'
+    : `${unread} unread notification${unread>1?'s':''}`;
+}
+
+// ── Click a notification — mark read + navigate ──
+function notifClick(id, tab){
+  _dismissedIds.add(id);
+  saveDismissedNotifs();
+  updateNotifBadge();
+  renderNotifPanel();
+
+  // Close panel
+  _notifPanelOpen = false;
+  document.getElementById('notifPanel').classList.remove('open');
+
+  // Navigate
+  if(tab === 'forwarder') { showForwarderDash(); return; }
+  if(tab === 'approver')  { showApproverDash();  return; }
+  // Switch dashboard tab
+  if(['home','payslips','taxdocs','knowtax','leave','calendar','profile','downloads'].includes(tab)){
+    // Make sure dashboard is visible
+    document.getElementById('pgDash').style.display='block';
+    document.getElementById('pgForwarder').style.display='none';
+    document.getElementById('pgApprover').style.display='none';
+    switchTab(tab);
+  }
+}
+
+// ── Dismiss a single notification ──
+function dismissNotif(e, id){
+  e.stopPropagation();
+  _dismissedIds.add(id);
+  saveDismissedNotifs();
+  updateNotifBadge();
+  renderNotifPanel();
+}
+
+// ── Mark all as read ──
+function markAllRead(){
+  _notifications.forEach(n => _dismissedIds.add(n.id));
+  saveDismissedNotifs();
+  updateNotifBadge();
+  renderNotifPanel();
+}
+
+// ── Refresh notifications (call after leave actions) ──
+function refreshNotifications(){
+  if(!currentEmp) return;
+  _notifications = generateNotifications(currentEmp);
+  saveDismissedNotifs();
+  updateNotifBadge();
+  if(_notifPanelOpen) renderNotifPanel();
 }
 
 // ===== PAGE LOAD =====
